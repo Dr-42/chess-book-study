@@ -123,6 +123,7 @@ export class Board {
                 squares[j].classList.remove('highlight');
                 squares[j].classList.remove('highlight-current');
                 squares[j].classList.remove('highlight-attack');
+                squares[j].classList.remove('highlight-check');
             }
         }
     }
@@ -248,6 +249,22 @@ export class Board {
     async check_board_state() {
         try {
             const res: string = await invoke("check_board_state", { fen: this.get_fen() });
+            return res;
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return '';
+        }
+    }
+
+    async get_king_square() {
+        let player: string;
+        if (this.current_player == PieceColor.White) {
+            player = 'white';
+        } else {
+            player = 'black';
+        }
+        try {
+            const res: string = await invoke("get_king_square", { fen: this.get_fen(), color: player });
             return res;
         } catch (error) {
             console.error("An error occurred:", error);

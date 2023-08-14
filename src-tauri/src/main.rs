@@ -27,9 +27,26 @@ fn check_board_state(fen: String) -> String {
         return "checkmate".to_string();
     } else if board_state == BoardStatus::Stalemate {
         return "stalemate".to_string();
-    } else {
-        return "continue".to_string();
     }
+
+    let new_board = board.null_move();
+    if new_board.is_none() {
+        return "check".to_string();
+    }
+    "continue".to_string()
+}
+
+#[tauri::command]
+fn get_king_square(fen: String, color: String) -> String {
+    let board = Board::from_str(&fen).unwrap();
+    let col: chess::Color;
+    if color == "white" {
+        col = chess::Color::White;
+    } else {
+        col = chess::Color::Black;
+    }
+    let king_square = board.king_square(col);
+    king_square.to_string()
 }
 
 #[tauri::command]
@@ -59,7 +76,8 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             get_attack_squares,
             check_board_state,
-            move_piece
+            move_piece,
+            get_king_square
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

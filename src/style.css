@@ -63,3 +63,7 @@ body {
     background-color: rgb(21, 103, 80, 0.9);
     /* Adjust color and opacity as needed */
 }
+
+.highlight-check {
+    background-color: rgba(255, 0, 0, 0.5);
+}

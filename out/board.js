@@ -114,6 +114,7 @@ export class Board {
                 squares[j].classList.remove('highlight');
                 squares[j].classList.remove('highlight-current');
                 squares[j].classList.remove('highlight-attack');
+                squares[j].classList.remove('highlight-check');
             }
         }
     }
@@ -233,6 +234,25 @@ export class Board {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const res = yield invoke("check_board_state", { fen: this.get_fen() });
+                return res;
+            }
+            catch (error) {
+                console.error("An error occurred:", error);
+                return '';
+            }
+        });
+    }
+    get_king_square() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let player;
+            if (this.current_player == PieceColor.White) {
+                player = 'white';
+            }
+            else {
+                player = 'black';
+            }
+            try {
+                const res = yield invoke("get_king_square", { fen: this.get_fen(), color: player });
                 return res;
             }
             catch (error) {

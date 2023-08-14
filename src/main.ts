@@ -79,13 +79,21 @@ board_element.addEventListener("click", async (event) => {
                 board.reset_square_colors();
                 orig_square.classList.add("highlight");
                 dest_square.classList.add("highlight");
-                board.movePiece(board.orig, board.dest);
+                await (board.movePiece(board.orig, board.dest));
                 board.clicked_on_piece = false;
                 let state = await (board.check_board_state());
                 if (state === "checkmate") {
                     alert("Checkmate!");
                 } else if (state === "stalemate") {
                     alert("Stalemate!");
+                } else if (state === "check") {
+                    let king_sqaure = await (board.get_king_square());
+                    if (king_sqaure !== null) {
+                        let king_square_element = document.getElementById(king_sqaure);
+                        if (king_square_element !== null) {
+                            king_square_element.classList.add("highlight-check");
+                        }
+                    }
                 }
             } else {
                 board.orig = null;
