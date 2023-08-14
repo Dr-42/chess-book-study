@@ -27,7 +27,12 @@ export class Piece {
         this.square = square;
         this.has_moved = false;
         let element = document.createElement('div');
-        element.className = 'piece';
+        element.classList.add('piece');
+        if (this.color == PieceColor.White) {
+            element.classList.add('white');
+        } else {
+            element.classList.add('black');
+        }
         element.style.backgroundImage = `url('src/assets/alpha.png')`;
         let original_width = 128 * 6;
         let original_height = 128 * 2;

@@ -1,5 +1,6 @@
 import { Board } from "./board.js";
 import { invoke } from "../node_modules/@tauri-apps/api/index.js";
+import { PieceColor } from "./piece.js";
 let board_element = document.getElementById("board");
 if (!board_element) {
     throw new Error("Board element not found");
@@ -25,6 +26,23 @@ board_element.addEventListener("click", (event) => {
         }
     }
     if (target.classList.contains("piece")) {
+        // Check if the piece of the current player
+        if (board.first_click) {
+            if (target.classList.contains("white") && board.current_player === PieceColor.Black) {
+                return;
+            }
+            else if (target.classList.contains("black") && board.current_player === PieceColor.White) {
+                return;
+            }
+        }
+        else {
+            if (target.classList.contains("white") && board.current_player === PieceColor.White) {
+                return;
+            }
+            else if (target.classList.contains("black") && board.current_player === PieceColor.Black) {
+                return;
+            }
+        }
         if (target.parentElement === null) {
             throw new Error("Parent element is null");
         }

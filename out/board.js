@@ -29,7 +29,7 @@ export class Board {
         this.squares = squares;
         this.element = element;
         this.rows = Array.from(element.querySelectorAll('.row'));
-        this.currentPlayer = PieceColor.White;
+        this.current_player = PieceColor.White;
         this.pieces = [];
         this.element = element;
     }
@@ -62,7 +62,7 @@ export class Board {
         if (piece) {
             from_square.setPiece(null);
             to_square.setPiece(piece);
-            this.currentPlayer = this.currentPlayer == PieceColor.White ? PieceColor.Black : PieceColor.White;
+            this.current_player = this.current_player == PieceColor.White ? PieceColor.Black : PieceColor.White;
         }
     }
     getSquare(coord) {
@@ -103,7 +103,7 @@ export class Board {
                 fen += '/';
             }
         }
-        fen += ' ' + (this.currentPlayer == PieceColor.White ? 'w' : 'b') + ' - - 0 1';
+        fen += ' ' + (this.current_player == PieceColor.White ? 'w' : 'b') + ' - - 0 1';
         return fen;
     }
 }
