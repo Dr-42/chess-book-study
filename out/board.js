@@ -87,15 +87,57 @@ export class Board {
         this.halfmove_clock = 0;
         this.fullmove_number = 1;
     }
+    showDialogBoxForPromotion() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise(resolve => {
+                // Create dialog box
+                let dialogBox = document.createElement('div');
+                dialogBox.setAttribute('id', 'dialogBox');
+                dialogBox.style.display = 'flex';
+                dialogBox.style.justifyContent = 'center';
+                dialogBox.style.alignItems = 'center';
+                dialogBox.style.position = 'fixed';
+                dialogBox.style.top = '0';
+                dialogBox.style.right = '0';
+                dialogBox.style.bottom = '0';
+                dialogBox.style.left = '0';
+                dialogBox.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                // Create buttons
+                let pieces = ['q', 'r', 'b', 'n'];
+                let pieceNames = ['Queen', 'Rook', 'Bishop', 'Knight'];
+                for (let i = 0; i < pieces.length; i++) {
+                    let button = document.createElement('button');
+                    button.textContent = pieceNames[i];
+                    button.style.margin = '0 10px';
+                    button.onclick = function () {
+                        // Remove dialog box
+                        document.body.removeChild(dialogBox);
+                        // Resolve promise with selected piece
+                        resolve(pieces[i]);
+                    };
+                    dialogBox.appendChild(button);
+                }
+                // Show dialog box
+                document.body.appendChild(dialogBox);
+            });
+        });
+    }
     movePiece(from, to) {
         return __awaiter(this, void 0, void 0, function* () {
+            let end_row = parseInt(to[1]);
+            let promotion_piece = null;
             try {
-                const res = yield invoke("move_piece", { fen: this.get_fen(), from: from, to: to });
+                // Check if promotion is needed
+                if ((this.current_player === PieceColor.White && end_row === 8) ||
+                    (this.current_player === PieceColor.Black && end_row === 1)) {
+                    // Show a dialog box to select the promotion piece
+                    promotion_piece = yield this.showDialogBoxForPromotion();
+                }
+                const res = yield invoke("move_piece", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece });
                 if (res == 'illegal') {
                     throw new Error('Illegal move');
                 }
                 this.fromFEN(res);
-                console.log(res);
             }
             catch (error) {
                 console.error("An error occurred:", error);

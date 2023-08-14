@@ -38,7 +38,7 @@ body {
 }
 
 .highlight {
-    background-color: rgba(235, 105, 105, 0.9);
+    background-color: rgba(105, 105, 235, 0.9);
 }
 
 .highlight-current {
@@ -65,5 +65,19 @@ body {
 }
 
 .highlight-check {
-    background-color: rgba(255, 0, 0, 0.5);
+    position: relative;
+}
+
+.highlight-check::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    /*background-color: rgb(235, 10, 10, 0.9);*/
+    /* add fade at the rims */
+    background-image: radial-gradient(rgba(235, 10, 10, 0.9), rgba(235, 10, 10, 0.9) 10%, rgba(235, 10, 10, 0.0) 70%);
 }

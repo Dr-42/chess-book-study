@@ -42,7 +42,6 @@ board_element.addEventListener("click", async (event) => {
             board.orig = target.parentElement.id;
             target.parentElement.classList.add("highlight-current");
             let possible_targets = await (board.get_attack_squares(board.orig));
-            console.log(possible_targets);
             if (possible_targets === null) {
                 return;
             }
