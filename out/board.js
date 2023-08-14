@@ -88,71 +88,19 @@ export class Board {
         this.fullmove_number = 1;
     }
     movePiece(from, to) {
-        let x_from = from.charCodeAt(0) - 97;
-        let y_from = parseInt(from[1]) - 1;
-        let x_to = to.charCodeAt(0) - 97;
-        let y_to = parseInt(to[1]) - 1;
-        let from_square = this.squares[y_from][x_from];
-        let to_square = this.squares[y_to][x_to];
-        let piece = from_square.getPiece();
-        if (piece) {
-            from_square.setPiece(null);
-            to_square.setPiece(piece);
-            this.current_player = this.current_player == PieceColor.White ? PieceColor.Black : PieceColor.White;
-            if (this.current_player == PieceColor.White) {
-                this.fullmove_number++;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const res = yield invoke("move_piece", { fen: this.get_fen(), from: from, to: to });
+                if (res == 'illegal') {
+                    throw new Error('Illegal move');
+                }
+                this.fromFEN(res);
+                console.log(res);
             }
-            this.halfmove_clock++;
-            if (piece.type == PieceType.Pawn) {
-                this.halfmove_clock = 0;
+            catch (error) {
+                console.error("An error occurred:", error);
             }
-            if (piece.type == PieceType.King) {
-                if (piece.color == PieceColor.White) {
-                    this.white_king_moved = true;
-                }
-                else {
-                    this.black_king_moved = true;
-                }
-            }
-            if (piece.type == PieceType.Rook) {
-                if (piece.color == PieceColor.White) {
-                    if (piece.square.coord == 'a1') {
-                        this.white_qs_rook_moved = true;
-                    }
-                    else if (piece.square.coord == 'h1') {
-                        this.white_ks_rook_moved = true;
-                    }
-                }
-                else {
-                    if (piece.square.coord == 'a8') {
-                        this.black_qs_rook_moved = true;
-                    }
-                    else if (piece.square.coord == 'h8') {
-                        this.black_ks_rook_moved = true;
-                    }
-                }
-            }
-            if (piece.type == PieceType.Pawn) {
-                if (piece.color == PieceColor.White) {
-                    if (piece.square.coord[1] == '2' && to_square.coord[1] == '4') {
-                        let en_passant_square = to_square.coord[0] + '3';
-                        this.en_passant = en_passant_square;
-                    }
-                    else {
-                        this.en_passant = '-';
-                    }
-                }
-                else {
-                    if (piece.square.coord[1] == '7' && to_square.coord[1] == '5') {
-                        let en_passant_square = to_square.coord[0] + '6';
-                        this.en_passant = en_passant_square;
-                    }
-                    else {
-                        this.en_passant = '-';
-                    }
-                }
-            }
-        }
+        });
     }
     getSquare(coord) {
         let x = coord.charCodeAt(0) - 97;
