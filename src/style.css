@@ -1,0 +1,46 @@
+body {
+    background-color: rgb(28, 28, 28);
+    width: calc(64px * 8);
+    height: calc(64px * 8);
+}
+
+.square {
+    border: 1px solid black;
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.piece {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 64px;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    transition: left 0.5s ease, top 0.5s ease;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.light-square {
+    background-color: rgb(205, 195, 205);
+}
+
+.dark-square {
+    background-color: rgb(105, 95, 105);
+}
+
+.highlight {
+    background-color: rgba(235, 105, 105, 0.5);
+}
+
+.highlight-current {
+    background-color: rgba(100, 255, 0, 0.5);
+}
