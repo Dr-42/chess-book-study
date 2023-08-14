@@ -96,6 +96,7 @@ export class Board {
         this.halfmove_clock = 0;
         this.fullmove_number = 1;
     }
+
     movePiece(from: string, to: string) {
         let x_from = from.charCodeAt(0) - 97;
         let y_from = parseInt(from[1]) - 1;
@@ -220,6 +221,66 @@ export class Board {
         fen += ' ' + this.halfmove_clock;
         fen += ' ' + this.fullmove_number;
         return fen;
+    }
+    fromFEN(fen: string) {
+        // Clear the board
+        this.pieces = [];
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
+                this.squares[i][j].setPiece(null);
+            }
+        }
+
+        // Split the FEN string into its components
+        let [position, currentPlayer, castlingAvailability, enPassantTarget, halfmoveClock, fullmoveNumber] = fen.split(' ');
+
+        // Set the pieces on the board
+        let ranks = position.split('/');
+        for (let i = 0; i < 8; i++) {
+            let file = 0;
+            for (let char of ranks[7 - i]) {
+                if (isNaN(parseInt(char))) {
+                    let color = (char === char.toUpperCase()) ? PieceColor.White : PieceColor.Black;
+                    let type = this.charToPieceType(char.toUpperCase());
+                    let piece = new Piece(type, color, this.squares[i][file]);
+                    this.squares[i][file].setPiece(piece);
+                    this.pieces.push(piece);
+                    file++;
+                } else {
+                    file += parseInt(char);
+                }
+            }
+        }
+
+        // Set the current player
+        this.current_player = (currentPlayer === 'w') ? PieceColor.White : PieceColor.Black;
+
+        // Set the castling availability
+        this.white_OO = castlingAvailability.includes('K');
+        this.white_OOO = castlingAvailability.includes('Q');
+        this.black_OO = castlingAvailability.includes('k');
+        this.black_OOO = castlingAvailability.includes('q');
+
+        // Set the en passant target
+        this.en_passant = (enPassantTarget === '-') ? '-' : enPassantTarget;
+
+        // Set the halfmove clock
+        this.halfmove_clock = parseInt(halfmoveClock);
+
+        // Set the fullmove number
+        this.fullmove_number = parseInt(fullmoveNumber);
+    }
+
+    charToPieceType(char: string): PieceType {
+        switch (char) {
+            case 'P': return PieceType.Pawn;
+            case 'N': return PieceType.Knight;
+            case 'B': return PieceType.Bishop;
+            case 'R': return PieceType.Rook;
+            case 'Q': return PieceType.Queen;
+            case 'K': return PieceType.King;
+            default: throw new Error('Invalid piece type');
+        }
     }
 
     async get_attack_squares(square: string) {
