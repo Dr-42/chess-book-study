@@ -15,13 +15,6 @@ if (!board_element) {
 }
 let board = new Board(board_element);
 board.startingPosition();
-board.movePiece("e2", "e4");
-board.movePiece("c7", "c5");
-board.movePiece("g1", "f3");
-board.movePiece("d7", "d6");
-board.movePiece("d2", "d4");
-board.movePiece("c5", "d4");
-console.log(board.get_fen());
 // Add a event listener to the board to move pieces
 board_element.addEventListener("click", (event) => __awaiter(void 0, void 0, void 0, function* () {
     let target = event.target;
@@ -97,10 +90,16 @@ board_element.addEventListener("click", (event) => __awaiter(void 0, void 0, voi
                 board.movePiece(board.orig, board.dest);
                 board.clicked_on_piece = false;
             }
+            else {
+                board.orig = null;
+                board.dest = null;
+                board.reset_square_colors();
+                board.first_click = true;
+                return;
+            }
         }
         board.orig = null;
         board.dest = null;
-        console.log(board.get_fen());
     }
     board.first_click = !board.first_click;
 }));
