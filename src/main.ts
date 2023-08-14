@@ -1,13 +1,14 @@
 import { Board } from "./board.js";
 import { PieceColor } from "./piece.js";
 
-let board_element = document.getElementById("board");
+let board_element = document.getElementById("board_div");
 
 if (!board_element) {
     throw new Error("Board element not found");
 }
 
 let board = new Board(board_element);
+window.board = board;
 board.startingPosition();
 
 // Add a event listener to the board to move pieces

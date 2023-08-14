@@ -17,7 +17,6 @@ export class Square {
         let element = document.createElement('div');
         element.classList.add('square');
         let y_letter = String.fromCharCode(97 + y);
-        element.id = `${y_letter}${x + 1}`;
         if ((this.x + this.y) % 2 != 0) {
             element.classList.add('dark-square');
         }
@@ -28,6 +27,8 @@ export class Square {
         if (piece) {
             this.element.appendChild(piece.element);
         }
+        this.coord = `${y_letter}${x + 1}`;
+        this.element.id = `${y_letter}${x + 1}`;
     }
     setPiece(piece) {
         this.piece = piece;

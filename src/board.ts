@@ -12,6 +12,19 @@ export class Board {
     dest?: string | null;
     first_click: boolean = true;
     clicked_on_piece: boolean = false;
+    white_OO: boolean = false;
+    white_OOO: boolean = false;
+    black_OO: boolean = false;
+    black_OOO: boolean = false;
+    white_king_moved: boolean = false;
+    black_king_moved: boolean = false;
+    white_ks_rook_moved: boolean = false;
+    white_qs_rook_moved: boolean = false;
+    black_ks_rook_moved: boolean = false;
+    black_qs_rook_moved: boolean = false;
+    en_passant: string = '-';
+    halfmove_clock: number = 0;
+    fullmove_number: number = 1;
     constructor(element: HTMLElement) {
         let squares: Square[][] = [];
 
@@ -68,6 +81,20 @@ export class Board {
             this.squares[6][i].setPiece(piece);
             this.pieces.push(piece);
         }
+        this.black_OO = true;
+        this.black_OOO = true;
+        this.white_OO = true;
+        this.white_OOO = true;
+
+        this.white_king_moved = false;
+        this.black_king_moved = false;
+        this.white_ks_rook_moved = false;
+        this.white_qs_rook_moved = false;
+        this.black_ks_rook_moved = false;
+        this.black_qs_rook_moved = false;
+        this.en_passant = '-';
+        this.halfmove_clock = 0;
+        this.fullmove_number = 1;
     }
     movePiece(from: string, to: string) {
         let x_from = from.charCodeAt(0) - 97;
@@ -81,6 +108,52 @@ export class Board {
             from_square.setPiece(null);
             to_square.setPiece(piece);
             this.current_player = this.current_player == PieceColor.White ? PieceColor.Black : PieceColor.White;
+            if (this.current_player == PieceColor.White) {
+                this.fullmove_number++;
+            }
+            this.halfmove_clock++;
+            if (piece.type == PieceType.Pawn) {
+                this.halfmove_clock = 0;
+            }
+            if (piece.type == PieceType.King) {
+                if (piece.color == PieceColor.White) {
+                    this.white_king_moved = true;
+                } else {
+                    this.black_king_moved = true;
+                }
+            }
+            if (piece.type == PieceType.Rook) {
+                if (piece.color == PieceColor.White) {
+                    if (piece.square.coord == 'a1') {
+                        this.white_qs_rook_moved = true;
+                    } else if (piece.square.coord == 'h1') {
+                        this.white_ks_rook_moved = true;
+                    }
+                } else {
+                    if (piece.square.coord == 'a8') {
+                        this.black_qs_rook_moved = true;
+                    } else if (piece.square.coord == 'h8') {
+                        this.black_ks_rook_moved = true;
+                    }
+                }
+            }
+            if (piece.type == PieceType.Pawn) {
+                if (piece.color == PieceColor.White) {
+                    if (piece.square.coord[1] == '2' && to_square.coord[1] == '4') {
+                        let en_passant_square = to_square.coord[0] + '3';
+                        this.en_passant = en_passant_square;
+                    } else {
+                        this.en_passant = '-';
+                    }
+                } else {
+                    if (piece.square.coord[1] == '7' && to_square.coord[1] == '5') {
+                        let en_passant_square = to_square.coord[0] + '6';
+                        this.en_passant = en_passant_square;
+                    } else {
+                        this.en_passant = '-';
+                    }
+                }
+            }
         }
     }
 
@@ -125,7 +198,27 @@ export class Board {
             }
         }
 
-        fen += ' ' + (this.current_player == PieceColor.White ? 'w' : 'b') + ' - - 0 1';
+        fen += ' ' + (this.current_player == PieceColor.White ? 'w' : 'b');
+        let castling = '';
+        if (this.white_OO) {
+            castling += 'K';
+        }
+        if (this.white_OOO) {
+            castling += 'Q';
+        }
+        if (this.black_OO) {
+            castling += 'k';
+        }
+        if (this.black_OOO) {
+            castling += 'q';
+        }
+        if (castling == '') {
+            castling = '-';
+        }
+        fen += ' ' + castling;
+        fen += ' ' + this.en_passant;
+        fen += ' ' + this.halfmove_clock;
+        fen += ' ' + this.fullmove_number;
         return fen;
     }
 
