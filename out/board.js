@@ -1,5 +1,15 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import { Piece, PieceColor, PieceType } from "./piece.js";
 import { Square } from "./square.js";
+import { invoke } from "../node_modules/@tauri-apps/api/index.js";
 export class Board {
     constructor(element) {
         this.first_click = true;
@@ -76,6 +86,7 @@ export class Board {
             for (let j = 0; j < squares.length; j++) {
                 squares[j].classList.remove('highlight');
                 squares[j].classList.remove('highlight-current');
+                squares[j].classList.remove('highlight-attack');
             }
         }
     }
@@ -105,6 +116,18 @@ export class Board {
         }
         fen += ' ' + (this.current_player == PieceColor.White ? 'w' : 'b') + ' - - 0 1';
         return fen;
+    }
+    get_attack_squares(square) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const res = yield invoke("get_attack_square", { fen: this.get_fen(), square: square });
+                return res;
+            }
+            catch (error) {
+                console.error("An error occurred:", error);
+                return [];
+            }
+        });
     }
 }
 //# sourceMappingURL=board.js.map

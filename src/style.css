@@ -38,9 +38,28 @@ body {
 }
 
 .highlight {
-    background-color: rgba(235, 105, 105, 0.5);
+    background-color: rgba(235, 105, 105, 0.9);
 }
 
 .highlight-current {
     background-color: rgba(100, 255, 0, 0.5);
+}
+
+.highlight-attack {
+    position: relative;
+    border-radius: 16px;
+    border-color: rgb(21, 103, 80, 0.9);
+}
+
+.highlight-attack::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: rgb(21, 103, 80, 0.9);
+    /* Adjust color and opacity as needed */
 }

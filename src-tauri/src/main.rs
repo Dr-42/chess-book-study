@@ -14,6 +14,8 @@ fn get_attack_square(fen: String, square: String) -> Vec<String> {
             attack_squares.push(m.get_dest().to_string());
         }
     }
+    //println!("{:?} {:?}", fen, square);
+    //println!("{:?}", attack_squares);
     attack_squares
 }
 

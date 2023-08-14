@@ -1,5 +1,6 @@
 import { Piece, PieceColor, PieceType } from "./piece.js";
 import { Square } from "./square.js";
+import { invoke } from "../node_modules/@tauri-apps/api/index.js";
 
 export class Board {
     squares: Square[][];
@@ -95,6 +96,7 @@ export class Board {
             for (let j = 0; j < squares.length; j++) {
                 squares[j].classList.remove('highlight');
                 squares[j].classList.remove('highlight-current');
+                squares[j].classList.remove('highlight-attack');
             }
         }
     }
@@ -125,5 +127,15 @@ export class Board {
 
         fen += ' ' + (this.current_player == PieceColor.White ? 'w' : 'b') + ' - - 0 1';
         return fen;
+    }
+
+    async get_attack_squares(square: string) {
+        try {
+            const res: string[] = await invoke("get_attack_square", { fen: this.get_fen(), square: square });
+            return res;
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return [];
+        }
     }
 }
