@@ -131,11 +131,21 @@ export class Board {
 
     async get_attack_squares(square: string) {
         try {
-            const res: string[] = await invoke("get_attack_square", { fen: this.get_fen(), square: square });
+            const res: string[] = await invoke("get_attack_squares", { fen: this.get_fen(), square: square });
             return res;
         } catch (error) {
             console.error("An error occurred:", error);
             return [];
+        }
+    }
+
+    async check_board_state() {
+        try {
+            const res: string = await invoke("check_board_state", { fen: this.get_fen() });
+            return res;
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return '';
         }
     }
 }

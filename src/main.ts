@@ -1,4 +1,3 @@
-import { r } from "../node_modules/@tauri-apps/api/clipboard-79413165.js";
 import { Board } from "./board.js";
 import { PieceColor } from "./piece.js";
 
@@ -81,6 +80,12 @@ board_element.addEventListener("click", async (event) => {
                 dest_square.classList.add("highlight");
                 board.movePiece(board.orig, board.dest);
                 board.clicked_on_piece = false;
+                let state = await (board.check_board_state());
+                if (state === "checkmate") {
+                    alert("Checkmate!");
+                } else if (state === "stalemate") {
+                    alert("Stalemate!");
+                }
             } else {
                 board.orig = null;
                 board.dest = null;

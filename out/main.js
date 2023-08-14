@@ -89,6 +89,13 @@ board_element.addEventListener("click", (event) => __awaiter(void 0, void 0, voi
                 dest_square.classList.add("highlight");
                 board.movePiece(board.orig, board.dest);
                 board.clicked_on_piece = false;
+                let state = yield (board.check_board_state());
+                if (state === "checkmate") {
+                    alert("Checkmate!");
+                }
+                else if (state === "stalemate") {
+                    alert("Stalemate!");
+                }
             }
             else {
                 board.orig = null;

@@ -120,12 +120,24 @@ export class Board {
     get_attack_squares(square) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const res = yield invoke("get_attack_square", { fen: this.get_fen(), square: square });
+                const res = yield invoke("get_attack_squares", { fen: this.get_fen(), square: square });
                 return res;
             }
             catch (error) {
                 console.error("An error occurred:", error);
                 return [];
+            }
+        });
+    }
+    check_board_state() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const res = yield invoke("check_board_state", { fen: this.get_fen() });
+                return res;
+            }
+            catch (error) {
+                console.error("An error occurred:", error);
+                return '';
             }
         });
     }
