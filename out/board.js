@@ -115,9 +115,7 @@ export class Board {
                     throw new Error('Illegal move');
                 }
                 this.fromFEN(res);
-                if (this.state_idx === this.states.length - 1) {
-                }
-                else {
+                if (this.state_idx !== this.states.length - 1) {
                     this.states = this.states.slice(0, this.state_idx + 1);
                 }
                 this.states.push(res);
