@@ -22,6 +22,15 @@ window.addEventListener("keydown", (event) => {
             board.state_idx--;
             board.fromFEN(board.states[board.state_idx]);
             board.reset_square_colors();
+            let from = board.moves[board.state_idx][0] + board.moves[board.state_idx][1];
+            let to = board.moves[board.state_idx][2] + board.moves[board.state_idx][3];
+            let from_square = document.getElementById(from);
+            let to_square = document.getElementById(to);
+            if (from_square !== null && to_square !== null) {
+                from_square.classList.add("highlight");
+                to_square.classList.add("highlight");
+            }
+            board.update_moves();
         }
     }
     else if (event.key === "ArrowRight") {
@@ -29,6 +38,15 @@ window.addEventListener("keydown", (event) => {
             board.state_idx++;
             board.fromFEN(board.states[board.state_idx]);
             board.reset_square_colors();
+            let from = board.moves[board.state_idx][0] + board.moves[board.state_idx][1];
+            let to = board.moves[board.state_idx][2] + board.moves[board.state_idx][3];
+            let from_square = document.getElementById(from);
+            let to_square = document.getElementById(to);
+            if (from_square !== null && to_square !== null) {
+                from_square.classList.add("highlight");
+                to_square.classList.add("highlight");
+            }
+            board.update_moves();
         }
     }
 });

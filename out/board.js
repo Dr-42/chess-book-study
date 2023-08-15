@@ -30,6 +30,7 @@ export class Board {
         this.state_idx = 0;
         this.states = [];
         this.san_moves = [""];
+        this.moves = [""];
         let squares = [];
         // Create squares
         squares = new Array(8);
@@ -100,6 +101,21 @@ export class Board {
             });
         });
     }
+    update_moves() {
+        // Update the board moves list
+        let movesList = document.getElementById('move_list');
+        if (movesList) {
+            movesList.innerHTML = '';
+            for (let i = 0; i < this.san_moves.length; i++) {
+                if (i === this.state_idx) {
+                    movesList.innerHTML += '<b><u>' + this.san_moves[i] + '</u></b>';
+                }
+                else {
+                    movesList.innerHTML += this.san_moves[i];
+                }
+            }
+        }
+    }
     movePiece(from, to) {
         return __awaiter(this, void 0, void 0, function* () {
             let end_row = parseInt(to[1]);
@@ -120,18 +136,13 @@ export class Board {
                 if (this.state_idx !== this.states.length - 1) {
                     this.states = this.states.slice(0, this.state_idx + 1);
                     this.san_moves = this.san_moves.slice(0, this.state_idx + 1);
+                    this.moves = this.moves.slice(0, this.state_idx + 1);
                 }
                 this.states.push(res);
                 this.san_moves.push(res1);
+                this.moves.push(from + to);
                 this.state_idx++;
-                // Update the board moves list
-                let movesList = document.getElementById('move_list');
-                if (movesList) {
-                    movesList.innerHTML = '';
-                    for (let i = 0; i < this.san_moves.length; i++) {
-                        movesList.innerHTML += this.san_moves[i];
-                    }
-                }
+                this.update_moves();
             }
             catch (error) {
                 console.error("An error occurred:", error);
