@@ -139,11 +139,9 @@ export class Board {
             }
             const res1: string = await invoke("get_san_move", { fen: this.getFEN(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmoveNumber, isWhite: this.currentPlayer == PieceColor.White });
             const res: string = await invoke("move_piece", { fen: this.getFEN(), from: from, to: to, promotion: promotion_piece });
-            console.log(res);
             this.fromFEN(res);
             if (this.currentPlayer == PieceColor.Black) {
                 this.fullmoveNumber++;
-                console.log(this.fullmoveNumber);
             }
             if (this.getSquare(from).getPiece()?.type == PieceType.Pawn) {
                 this.halfmoveClock = 0;

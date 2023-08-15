@@ -2,4 +2,5 @@
 interface Window {
     board: any;
     fen: string;
+    activePiece: string;
 }

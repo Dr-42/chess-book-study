@@ -15,40 +15,41 @@
     <div id="side_panel">
         <div id="piece_buttons">
             <div id="white_buttons">
-                <button id="white_pawn_button" class="piece_button" onclick="board.addPiece('white', 'pawn')">
+                <button id="white_pawn_button" class="piece_button">
                     ♙</button>
-                <button id="white_rook_button" class="piece_button" onclick="board.addPiece('white', 'rook')">
+                <button id="white_rook_button" class="piece_button">
                     ♖</button>
-                <button id="white_knight_button" class="piece_button" onclick="board.addPiece('white', 'knight')">
+                <button id="white_knight_button" class="piece_button">
                     ♘</button>
-                <button id="white_bishop_button" class="piece_button" onclick="board.addPiece('white', 'bishop')">
+                <button id="white_bishop_button" class="piece_button">
                     ♗</button>
-                <button id="white_queen_button" class="piece_button" onclick="board.addPiece('white', 'queen')">
+                <button id="white_queen_button" class="piece_button">
                     ♕</button>
-                <button id="white_king_button" class="piece_button" onclick="board.addPiece('white', 'king')">
+                <button id="white_king_button" class="piece_button">
                     ♔</button>
             </div>
             <div id="black_buttons">
-                <button id="black_pawn_button" class="piece_button" onclick="board.addPiece('black', 'pawn')">
+                <button id="black_pawn_button" class="piece_button">
                     ♟</button>
-                <button id="black_rook_button" class="piece_button" onclick="board.addPiece('black', 'rook')">
+                <button id="black_rook_button" class="piece_button">
                     ♜</button>
-                <button id="black_knight_button" class="piece_button" onclick="board.addPiece('black', 'knight')">
+                <button id="black_knight_button" class="piece_button">
                     ♞</button>
-                <button id="black_bishop_button" class="piece_button" onclick="board.addPiece('black', 'bishop')">
+                <button id="black_bishop_button" class="piece_button">
                     ♝</button>
-                <button id="black_queen_button" class="piece_button" onclick="board.addPiece('black', 'queen')">
+                <button id="black_queen_button" class="piece_button">
                     ♛</button>
-                <button id="black_king_button" class="piece_button" onclick="board.addPiece('black', 'king')">
+                <button id="black_king_button" class="piece_button">
                     ♚</button>
             </div>
         </div>
         <div>
-            <button id="delete_button" class="side_panel_button">🗑</button>
+            <button id="clear_button" class="side_panel_button">🧹</button>
         </div>
         <div id="side_panel_buttons">
-            <button id="edit_button" class="side_panel_button"><a href="index.html">⏵</a></button>
+            <button id="play_button" class="side_panel_button">⏵</a></button>
             <button id="reset_button" class="side_panel_button" onclick="board.startingPosition()">↺</button>
+            <button id="delete_button" class="side_panel_button">🗑</button>
         </div>
     </div>
     <script type="module" src="./out/edit.js"></script>

@@ -132,11 +132,9 @@ export class Board {
                 }
                 const res1 = yield invoke("get_san_move", { fen: this.getFEN(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmoveNumber, isWhite: this.currentPlayer == PieceColor.White });
                 const res = yield invoke("move_piece", { fen: this.getFEN(), from: from, to: to, promotion: promotion_piece });
-                console.log(res);
                 this.fromFEN(res);
                 if (this.currentPlayer == PieceColor.Black) {
                     this.fullmoveNumber++;
-                    console.log(this.fullmoveNumber);
                 }
                 if (((_a = this.getSquare(from).getPiece()) === null || _a === void 0 ? void 0 : _a.type) == PieceType.Pawn) {
                     this.halfmoveClock = 0;

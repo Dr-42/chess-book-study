@@ -24,6 +24,9 @@
         "message": false,
         "open": false,
         "save": false
+      },
+      "fs": {
+        "all": true
       }
     },
     "bundle": {
