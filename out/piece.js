@@ -60,7 +60,7 @@ export class Piece {
         this.element = element;
         this.square.piece = this;
     }
-    get_fen() {
+    getFEN() {
         let fen = '';
         switch (this.type) {
             case PieceType.King:

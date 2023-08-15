@@ -65,6 +65,14 @@ export class Board {
         this.fromFEN(fen);
         this.stateIdx = 0;
         this.states.push(fen);
+        this.moves = [];
+        this.moves.push("");
+        this.sanMoves = [];
+        this.sanMoves.push("");
+        this.fullmoveNumber = 1;
+        this.halfmoveClock = 0;
+        this.updateMoves();
+        this.resetColors();
     }
 
     async showDialogBoxForPromotion(): Promise<string> {
@@ -103,7 +111,7 @@ export class Board {
         });
     }
 
-    update_moves() {
+    updateMoves() {
         // Update the board moves list
         let movesList = document.getElementById('move_list');
         if (movesList) {
@@ -129,8 +137,8 @@ export class Board {
                 // Show a dialog box to select the promotion piece
                 promotion_piece = await this.showDialogBoxForPromotion();
             }
-            const res1: string = await invoke("get_san_move", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmoveNumber, isWhite: this.currentPlayer == PieceColor.White });
-            const res: string = await invoke("move_piece", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece });
+            const res1: string = await invoke("get_san_move", { fen: this.getFEN(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmoveNumber, isWhite: this.currentPlayer == PieceColor.White });
+            const res: string = await invoke("move_piece", { fen: this.getFEN(), from: from, to: to, promotion: promotion_piece });
             console.log(res);
             this.fromFEN(res);
             if (this.currentPlayer == PieceColor.Black) {
@@ -142,7 +150,7 @@ export class Board {
             } else {
                 this.halfmoveClock++;
             }
-            let fen = this.get_fen();
+            let fen = this.getFEN();
             if (this.stateIdx !== this.states.length - 1) {
                 this.states = this.states.slice(0, this.stateIdx + 1);
                 this.sanMoves = this.sanMoves.slice(0, this.stateIdx + 1);
@@ -152,7 +160,7 @@ export class Board {
             this.sanMoves.push(res1);
             this.moves.push(from + to);
             this.stateIdx++;
-            this.update_moves();
+            this.updateMoves();
         } catch (error) {
             console.error("An error occurred:", error);
         }
@@ -165,7 +173,7 @@ export class Board {
         return this.squares[y][x];
     }
 
-    reset_square_colors() {
+    resetColors() {
         for (let i = 0; i < this.rows.length; i++) {
             let squares = this.rows[i].querySelectorAll('.square');
             for (let j = 0; j < squares.length; j++) {
@@ -177,7 +185,7 @@ export class Board {
         }
     }
 
-    get_fen() {
+    getFEN() {
         let fen = '';
         for (let i = 7; i >= 0; i--) {
             let empty = 0;
@@ -188,7 +196,7 @@ export class Board {
                         fen += empty;
                         empty = 0;
                     }
-                    fen += piece.get_fen();
+                    fen += piece.getFEN();
                 } else {
                     empty++;
                 }
@@ -279,9 +287,9 @@ export class Board {
         }
     }
 
-    async get_attack_squares(square: string) {
+    async getMoveSquares(square: string) {
         try {
-            const res: string[] = await invoke("get_attack_squares", { fen: this.get_fen(), square: square });
+            const res: string[] = await invoke("get_attack_squares", { fen: this.getFEN(), square: square });
             return res;
         } catch (error) {
             console.error("An error occurred:", error);
@@ -289,9 +297,9 @@ export class Board {
         }
     }
 
-    async check_board_state() {
+    async checkState() {
         try {
-            const res: string = await invoke("check_board_state", { fen: this.get_fen() });
+            const res: string = await invoke("check_board_state", { fen: this.getFEN() });
             return res;
         } catch (error) {
             console.error("An error occurred:", error);
@@ -299,7 +307,7 @@ export class Board {
         }
     }
 
-    async get_king_square() {
+    async getKingSquare() {
         let player: string;
         if (this.currentPlayer == PieceColor.White) {
             player = 'white';
@@ -307,11 +315,58 @@ export class Board {
             player = 'black';
         }
         try {
-            const res: string = await invoke("get_king_square", { fen: this.get_fen(), color: player });
+            const res: string = await invoke("get_king_square", { fen: this.getFEN(), color: player });
             return res;
         } catch (error) {
             console.error("An error occurred:", error);
             return '';
+        }
+    }
+
+    forward() {
+        if (this.stateIdx > 0) {
+            this.stateIdx--;
+            this.fromFEN(this.states[this.stateIdx]);
+            this.resetColors();
+            let from = this.moves[this.stateIdx][0] + this.moves[this.stateIdx][1];
+            let to = this.moves[this.stateIdx][2] + this.moves[this.stateIdx][3];
+            let from_square = document.getElementById(from);
+            let to_square = document.getElementById(to);
+            if (from_square !== null && to_square !== null) {
+                from_square.classList.add("highlight");
+                to_square.classList.add("highlight");
+            }
+            this.updateMoves();
+            this.halfmoveClock--;
+            if (this.halfmoveClock < 0) {
+                this.halfmoveClock = 0;
+            }
+            if (this.currentPlayer === PieceColor.White) {
+                this.fullmoveNumber--;
+            }
+        }
+    }
+    backward() {
+        if (this.stateIdx < this.states.length - 1) {
+            this.stateIdx++;
+            this.fromFEN(this.states[this.stateIdx]);
+            this.resetColors();
+            let from = this.moves[this.stateIdx][0] + this.moves[this.stateIdx][1];
+            let to = this.moves[this.stateIdx][2] + this.moves[this.stateIdx][3];
+            let from_square = document.getElementById(from);
+            let to_square = document.getElementById(to);
+            if (from_square !== null && to_square !== null) {
+                from_square.classList.add("highlight");
+                to_square.classList.add("highlight");
+            }
+            this.updateMoves();
+            this.halfmoveClock++;
+            if (this.halfmoveClock < 0) {
+                this.halfmoveClock = 0;
+            }
+            if (this.currentPlayer === PieceColor.Black) {
+                this.fullmoveNumber++;
+            }
         }
     }
 }

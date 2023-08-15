@@ -9,53 +9,18 @@ if (!board_element) {
 
 let board = new Board(board_element);
 window.board = board;
-board.startingPosition();
+if (window.fen === undefined) {
+    window.fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+}
+board.fromFEN(window.fen);
+board.states.push(window.fen);
+board.stateIdx = 0;
 
 window.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
-        if (board.stateIdx > 0) {
-            board.stateIdx--;
-            board.fromFEN(board.states[board.stateIdx]);
-            board.reset_square_colors();
-            let from = board.moves[board.stateIdx][0] + board.moves[board.stateIdx][1];
-            let to = board.moves[board.stateIdx][2] + board.moves[board.stateIdx][3];
-            let from_square = document.getElementById(from);
-            let to_square = document.getElementById(to);
-            if (from_square !== null && to_square !== null) {
-                from_square.classList.add("highlight");
-                to_square.classList.add("highlight");
-            }
-            board.update_moves();
-            board.halfmoveClock--;
-            if (board.halfmoveClock < 0) {
-                board.halfmoveClock = 0;
-            }
-            if (board.currentPlayer === PieceColor.White) {
-                board.fullmoveNumber--;
-            }
-        }
+        board.forward();
     } else if (event.key === "ArrowRight") {
-        if (board.stateIdx < board.states.length - 1) {
-            board.stateIdx++;
-            board.fromFEN(board.states[board.stateIdx]);
-            board.reset_square_colors();
-            let from = board.moves[board.stateIdx][0] + board.moves[board.stateIdx][1];
-            let to = board.moves[board.stateIdx][2] + board.moves[board.stateIdx][3];
-            let from_square = document.getElementById(from);
-            let to_square = document.getElementById(to);
-            if (from_square !== null && to_square !== null) {
-                from_square.classList.add("highlight");
-                to_square.classList.add("highlight");
-            }
-            board.update_moves();
-            board.halfmoveClock++;
-            if (board.halfmoveClock < 0) {
-                board.halfmoveClock = 0;
-            }
-            if (board.currentPlayer === PieceColor.Black) {
-                board.fullmoveNumber++;
-            }
-        }
+        board.backward();
     }
 });
 
@@ -89,7 +54,7 @@ board_element.addEventListener("click", async (event) => {
         if (board.firstClick) {
             board.orig = target.parentElement.id;
             target.parentElement.classList.add("highlight-current");
-            let possible_targets = await (board.get_attack_squares(board.orig));
+            let possible_targets = await (board.getMoveSquares(board.orig));
             if (possible_targets === null) {
                 return;
             }
@@ -104,7 +69,7 @@ board_element.addEventListener("click", async (event) => {
             if (board.clickedOnPiece) {
                 board.dest = target.parentElement.id;
             } else {
-                board.reset_square_colors();
+                board.resetColors();
                 board.orig = target.parentElement.id;
                 target.parentElement.classList.add("highlight-current");
                 board.clickedOnPiece = true;
@@ -121,20 +86,20 @@ board_element.addEventListener("click", async (event) => {
         let orig_square = document.getElementById(board.orig);
         let dest_square = document.getElementById(board.dest);
         if (orig_square !== null && dest_square !== null) {
-            let possible_targets = await (board.get_attack_squares(board.orig));
+            let possible_targets = await (board.getMoveSquares(board.orig));
             if (possible_targets && (possible_targets.indexOf(board.dest) > -1)) {
-                board.reset_square_colors();
+                board.resetColors();
                 orig_square.classList.add("highlight");
                 dest_square.classList.add("highlight");
                 await (board.movePiece(board.orig, board.dest));
                 board.clickedOnPiece = false;
-                let state = await (board.check_board_state());
+                let state = await (board.checkState());
                 if (state === "checkmate") {
                     alert("Checkmate!");
                 } else if (state === "stalemate") {
                     alert("Stalemate!");
                 } else if (state === "check") {
-                    let king_sqaure = await (board.get_king_square());
+                    let king_sqaure = await (board.getKingSquare());
                     if (king_sqaure !== null) {
                         let king_square_element = document.getElementById(king_sqaure);
                         if (king_square_element !== null) {
@@ -145,7 +110,7 @@ board_element.addEventListener("click", async (event) => {
             } else {
                 board.orig = null;
                 board.dest = null;
-                board.reset_square_colors();
+                board.resetColors();
                 board.firstClick = true;
                 return;
             }
