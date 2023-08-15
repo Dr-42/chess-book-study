@@ -197,6 +197,27 @@ fn get_san_move(
     if new_board.null_move().is_none() {
         result.push_str("+");
     }
+    if mov.get_source() == chess::Square::from_str("e1").unwrap()
+        && mov.get_dest() == chess::Square::from_str("g1").unwrap()
+        && board.piece_on(mov.get_source()) == Some(Piece::King)
+    {
+        result = format!("{}.O-O", move_num);
+    } else if mov.get_source() == chess::Square::from_str("e1").unwrap()
+        && mov.get_dest() == chess::Square::from_str("c1").unwrap()
+        && board.piece_on(mov.get_source()) == Some(Piece::King)
+    {
+        result = format!("{}.O-O-O", move_num);
+    } else if mov.get_source() == chess::Square::from_str("e8").unwrap()
+        && mov.get_dest() == chess::Square::from_str("g8").unwrap()
+        && board.piece_on(mov.get_source()) == Some(Piece::King)
+    {
+        result = "O-O".to_string();
+    } else if mov.get_source() == chess::Square::from_str("e8").unwrap()
+        && mov.get_dest() == chess::Square::from_str("c8").unwrap()
+        && board.piece_on(mov.get_source()) == Some(Piece::King)
+    {
+        result = "O-O-O".to_string();
+    }
     result.push_str(" ");
     result
 }

@@ -31,6 +31,13 @@ window.addEventListener("keydown", (event) => {
                 to_square.classList.add("highlight");
             }
             board.update_moves();
+            board.halfmove_clock--;
+            if (board.halfmove_clock < 0) {
+                board.halfmove_clock = 0;
+            }
+            if (board.current_player === PieceColor.White) {
+                board.fullmove_number--;
+            }
         }
     }
     else if (event.key === "ArrowRight") {
@@ -47,6 +54,13 @@ window.addEventListener("keydown", (event) => {
                 to_square.classList.add("highlight");
             }
             board.update_moves();
+            board.halfmove_clock++;
+            if (board.halfmove_clock < 0) {
+                board.halfmove_clock = 0;
+            }
+            if (board.current_player === PieceColor.Black) {
+                board.fullmove_number++;
+            }
         }
     }
 });

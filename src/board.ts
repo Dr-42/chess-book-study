@@ -137,16 +137,24 @@ export class Board {
             }
             const res1: string = await invoke("get_san_move", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmove_number, isWhite: this.current_player == PieceColor.White });
             const res: string = await invoke("move_piece", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece });
-            if (res == 'illegal') {
-                throw new Error('Illegal move');
-            }
+            console.log(res);
             this.fromFEN(res);
+            if (this.current_player == PieceColor.Black) {
+                this.fullmove_number++;
+                console.log(this.fullmove_number);
+            }
+            if (this.getSquare(from).getPiece()?.type == PieceType.Pawn) {
+                this.halfmove_clock = 0;
+            } else {
+                this.halfmove_clock++;
+            }
+            let fen = this.get_fen();
             if (this.state_idx !== this.states.length - 1) {
                 this.states = this.states.slice(0, this.state_idx + 1);
                 this.san_moves = this.san_moves.slice(0, this.state_idx + 1);
                 this.moves = this.moves.slice(0, this.state_idx + 1);
             }
-            this.states.push(res);
+            this.states.push(fen);
             this.san_moves.push(res1);
             this.moves.push(from + to);
             this.state_idx++;
@@ -263,12 +271,6 @@ export class Board {
 
         // Set the en passant target
         this.en_passant = (enPassantTarget === '-') ? '-' : enPassantTarget;
-
-        // Set the halfmove clock
-        this.halfmove_clock = parseInt(halfmoveClock);
-
-        // Set the fullmove number
-        this.fullmove_number = parseInt(fullmoveNumber);
     }
 
     charToPieceType(char: string): PieceType {
