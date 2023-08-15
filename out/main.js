@@ -21,12 +21,14 @@ window.addEventListener("keydown", (event) => {
         if (board.state_idx > 0) {
             board.state_idx--;
             board.fromFEN(board.states[board.state_idx]);
+            board.reset_square_colors();
         }
     }
     else if (event.key === "ArrowRight") {
         if (board.state_idx < board.states.length - 1) {
             board.state_idx++;
             board.fromFEN(board.states[board.state_idx]);
+            board.reset_square_colors();
         }
     }
 });
