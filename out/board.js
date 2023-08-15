@@ -29,6 +29,7 @@ export class Board {
         this.fullmove_number = 1;
         this.state_idx = 0;
         this.states = [];
+        this.san_moves = [];
         let squares = [];
         // Create squares
         squares = new Array(8);
@@ -111,7 +112,6 @@ export class Board {
                     promotion_piece = yield this.showDialogBoxForPromotion();
                 }
                 const res1 = yield invoke("get_san_move", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmove_number, isWhite: this.current_player == PieceColor.White });
-                console.log(res1);
                 const res = yield invoke("move_piece", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece });
                 if (res == 'illegal') {
                     throw new Error('Illegal move');
@@ -119,9 +119,19 @@ export class Board {
                 this.fromFEN(res);
                 if (this.state_idx !== this.states.length - 1) {
                     this.states = this.states.slice(0, this.state_idx + 1);
+                    this.san_moves = this.san_moves.slice(0, this.state_idx + 1);
                 }
                 this.states.push(res);
+                this.san_moves.push(res1);
                 this.state_idx++;
+                // Update the board moves list
+                let movesList = document.getElementById('move_list');
+                if (movesList) {
+                    movesList.innerHTML = '';
+                    for (let i = 0; i < this.san_moves.length; i++) {
+                        movesList.innerHTML += this.san_moves[i];
+                    }
+                }
             }
             catch (error) {
                 console.error("An error occurred:", error);

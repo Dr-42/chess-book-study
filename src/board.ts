@@ -27,6 +27,7 @@ export class Board {
     fullmove_number: number = 1;
     state_idx = 0;
     states: string[] = [];
+    san_moves: string[] = [];
 
     constructor(element: HTMLElement) {
         let squares: Square[][] = [];
@@ -118,7 +119,6 @@ export class Board {
                 promotion_piece = await this.showDialogBoxForPromotion();
             }
             const res1: string = await invoke("get_san_move", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmove_number, isWhite: this.current_player == PieceColor.White });
-            console.log(res1);
             const res: string = await invoke("move_piece", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece });
             if (res == 'illegal') {
                 throw new Error('Illegal move');
@@ -126,9 +126,22 @@ export class Board {
             this.fromFEN(res);
             if (this.state_idx !== this.states.length - 1) {
                 this.states = this.states.slice(0, this.state_idx + 1);
+                this.san_moves = this.san_moves.slice(0, this.state_idx + 1);
             }
             this.states.push(res);
+            this.san_moves.push(res1);
             this.state_idx++;
+
+            // Update the board moves list
+            let movesList = document.getElementById('move_list');
+            if (movesList) {
+                movesList.innerHTML = '';
+                for (let i = 0; i < this.san_moves.length; i++) {
+                    movesList.innerHTML += this.san_moves[i];
+                }
+            }
+
+
         } catch (error) {
             console.error("An error occurred:", error);
         }
