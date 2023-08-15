@@ -58,10 +58,38 @@ a {
     align-items: center;
 }
 
+.board_settings {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    padding: 10px;
+}
+
+.checkboxes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    background-color: rgb(48, 48, 48);
+    color: white;
+    font-size: 12px;
+}
+
+.checkbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+}
+
 .piece_button {
     width: 40px;
     height: 40px;
-    margin: 10px;
+    margin: 7px;
     border-radius: 20%;
     background-color: rgb(196, 240, 142);
     font-size: 25px;

@@ -49,6 +49,7 @@
         "fullscreen": false,
         "resizable": false,
         "title": "chess-book-study",
+        "alwaysOnTop": true,
         "width": 742,
         "height": 528
       }
