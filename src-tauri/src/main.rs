@@ -54,32 +54,20 @@ fn move_piece(fen: String, from: String, to: String, promotion: Option<String>) 
     let board = Board::from_str(&fen).unwrap();
     let from = chess::Square::from_str(&from).unwrap();
     let to = chess::Square::from_str(&to).unwrap();
-    let moves = MoveGen::new_legal(&board);
-    let mut legal_move = false;
-    let mut mov: ChessMove = ChessMove::new(from, to, None);
-    for m in moves {
-        if m.get_source() == from && m.get_dest() == to {
-            legal_move = true;
-            mov = m;
-        }
+    let mut mov = ChessMove::new(from, to, None);
+    if promotion.is_some() {
+        let promotion = promotion.unwrap();
+        let promotion = match promotion.as_str() {
+            "q" => chess::Piece::Queen,
+            "r" => chess::Piece::Rook,
+            "b" => chess::Piece::Bishop,
+            "n" => chess::Piece::Knight,
+            _ => chess::Piece::Queen,
+        };
+        mov = ChessMove::new(from, to, Some(promotion));
     }
-    if legal_move {
-        if promotion.is_some() {
-            let promotion = promotion.unwrap();
-            let promotion = match promotion.as_str() {
-                "q" => chess::Piece::Queen,
-                "r" => chess::Piece::Rook,
-                "b" => chess::Piece::Bishop,
-                "n" => chess::Piece::Knight,
-                _ => chess::Piece::Queen,
-            };
-            mov = ChessMove::new(from, to, Some(promotion));
-        }
-        let new_board = board.make_move_new(mov);
-        return new_board.to_string();
-    } else {
-        return "illegal".to_string();
-    }
+    let new_board = board.make_move_new(mov);
+    return new_board.to_string();
 }
 
 fn main() {
