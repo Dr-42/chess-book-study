@@ -1,0 +1,150 @@
+body {
+    background-color: rgb(28, 28, 28);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: calc((64px * 8) + 200px + 10px);
+    height: calc(64px * 8);
+    padding: 0%;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+#side_panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: calc(64px * 8);
+}
+
+#board_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: calc(64px * 8);
+    height: calc(64px * 8);
+    flex-wrap: wrap;
+}
+
+#vert_space {
+    width: 10px;
+    height: 100%;
+}
+
+#move_list {
+    width: 200px;
+    height: 80%;
+    align-self: stretch;
+    background-color: rgb(48, 48, 48);
+    color: white;
+    font-size: 20px;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+#side_panel_buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 20%;
+    padding: 10px;
+}
+
+.side_panel_button {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    border-radius: 20%;
+    background-color: rgb(48, 48, 48);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.square {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.piece {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 64px;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    transition: left 0.5s ease, top 0.5s ease;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.light-square {
+    background-color: rgb(205, 195, 205);
+}
+
+.dark-square {
+    background-color: rgb(105, 95, 105);
+}
+
+.highlight {
+    background-color: rgba(105, 105, 235, 0.9);
+}
+
+.highlight-current {
+    background-color: rgba(100, 255, 0, 0.5);
+}
+
+.highlight-attack {
+    position: relative;
+    border-radius: 16px;
+    border-color: rgb(21, 103, 80, 0.9);
+}
+
+.highlight-attack::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: rgb(21, 103, 80, 0.9);
+    /* Adjust color and opacity as needed */
+}
+
+.highlight-check {
+    position: relative;
+}
+
+.highlight-check::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    /*background-color: rgb(235, 10, 10, 0.9);*/
+    /* add fade at the rims */
+    background-image: radial-gradient(rgba(235, 10, 10, 0.9), rgba(235, 10, 10, 0.9) 10%, rgba(235, 10, 10, 0.0) 70%);
+}
