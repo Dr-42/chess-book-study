@@ -26,7 +26,11 @@ export class Piece {
         this.color = color;
         this.square = square;
         let element = document.createElement('div');
-        element.classList.add('piece');
+        if (square.board.flipped) {
+            element.classList.add('flipped_piece');
+        } else {
+            element.classList.add('piece');
+        }
         if (this.color == PieceColor.White) {
             element.classList.add('white');
         } else {

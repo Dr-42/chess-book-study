@@ -67,6 +67,9 @@ let edit_button = document.getElementById("edit_button");
 if (edit_button) {
     edit_button.addEventListener("click", () => {
         localStorage.setItem("fen", board.getFEN());
+        if (board.flipped) {
+            board.rotate();
+        }
         // Navigate to the edit page
         window.location.href = "/edit.html";
     });
@@ -88,7 +91,7 @@ board_element.addEventListener("click", async (event) => {
             board.dest = target.id;
         }
     }
-    if (target.classList.contains("piece")) {
+    if (target.classList.contains("piece") || target.classList.contains("flipped_piece")) {
         // Check if the piece of the current player
         if (board.firstClick) {
             if (target.classList.contains("white") && board.currentPlayer === PieceColor.Black) {

@@ -7,7 +7,7 @@ export class Square {
         let element = document.createElement('div');
         element.classList.add('square');
         let y_letter = String.fromCharCode(97 + y);
-        if ((this.x + this.y) % 2 != 0) {
+        if ((this.x + this.y + 1) % 2 != 0) {
             element.classList.add('dark-square');
         }
         else {

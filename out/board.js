@@ -25,6 +25,7 @@ export class Board {
         this.states = [];
         this.sanMoves = [""];
         this.moves = [""];
+        this.flipped = false;
         let squares = [];
         // Create squares
         squares = new Array(8);
@@ -269,6 +270,15 @@ export class Board {
             case 'Q': return PieceType.Queen;
             case 'K': return PieceType.King;
             default: throw new Error('Invalid piece type');
+        }
+    }
+    rotate() {
+        this.element.classList.toggle('flipped');
+        this.flipped = !this.flipped;
+        // prevent pieces from rotating
+        for (let i = 0; i < this.pieces.length; i++) {
+            this.pieces[i].element.classList.toggle('piece');
+            this.pieces[i].element.classList.toggle('flipped_piece');
         }
     }
     getMoveSquares(square) {

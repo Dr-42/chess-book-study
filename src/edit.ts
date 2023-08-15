@@ -217,6 +217,7 @@ if (reset_button) {
         window.fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         board.fromFEN(window.fen);
         board.states.push(window.fen);
+        whiteTurn.checked = true;
         whiteOO.checked = true;
         whiteOOO.checked = true;
         blackOO.checked = true;
@@ -225,6 +226,7 @@ if (reset_button) {
         board.whiteOOO = true;
         board.blackOO = true;
         board.blackOOO = true;
+        board.currentPlayer = PieceColor.White;
         board.stateIdx = 0;
     });
 }
