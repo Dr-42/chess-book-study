@@ -6,7 +6,8 @@ export enum PieceType {
     Knight,
     Bishop,
     Queen,
-    King
+    King,
+    None
 }
 
 export enum PieceColor {

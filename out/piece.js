@@ -6,6 +6,7 @@ export var PieceType;
     PieceType[PieceType["Bishop"] = 3] = "Bishop";
     PieceType[PieceType["Queen"] = 4] = "Queen";
     PieceType[PieceType["King"] = 5] = "King";
+    PieceType[PieceType["None"] = 6] = "None";
 })(PieceType || (PieceType = {}));
 export var PieceColor;
 (function (PieceColor) {

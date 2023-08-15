@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Board } from "./board.js";
+import { PieceColor, PieceType, Piece } from "./piece.js";
 let board_element = document.getElementById("board_div");
 if (!board_element) {
     throw new Error("Board element not found");
@@ -49,14 +50,19 @@ window.onload = () => {
 let play_button = document.getElementById("play_button");
 if (play_button) {
     let stIDX = 0;
-    play_button.addEventListener("click", () => {
+    play_button.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
+        let sane = yield board.isSane();
+        if (!sane) {
+            alert("Board settings illegal");
+            return;
+        }
         localStorage.setItem("fen", board.getFEN());
         localStorage.setItem("stateIdx", stIDX.toString());
         localStorage.setItem("states", JSON.stringify([board.getFEN()]));
         localStorage.setItem("moves", JSON.stringify([""]));
         localStorage.setItem("sanMoves", JSON.stringify([""]));
         window.location.href = "index.html";
-    });
+    }));
 }
 let R_button = document.getElementById("white_rook_button");
 if (R_button) {
@@ -145,7 +151,59 @@ if (clear_button) {
         board.stateIdx = 0;
     });
 }
-// Add a event listener to the board to move pieces
-board_element.addEventListener("click", (event) => __awaiter(void 0, void 0, void 0, function* () {
-}));
+board_element.addEventListener("click", event => {
+    var _a;
+    let color;
+    if (window.activePiece === window.activePiece.toUpperCase()) {
+        color = PieceColor.White;
+    }
+    else {
+        color = PieceColor.Black;
+    }
+    let pieceType;
+    switch (window.activePiece.toLowerCase()) {
+        case "r":
+            pieceType = PieceType.Rook;
+            break;
+        case "n":
+            pieceType = PieceType.Knight;
+            break;
+        case "b":
+            pieceType = PieceType.Bishop;
+            break;
+        case "q":
+            pieceType = PieceType.Queen;
+            break;
+        case "k":
+            pieceType = PieceType.King;
+            break;
+        case "p":
+            pieceType = PieceType.Pawn;
+            break;
+        default:
+            pieceType = PieceType.None;
+    }
+    let target = event.target;
+    let target_id;
+    if (target.classList.contains("square")) {
+        target_id = target.id;
+    }
+    else if ((_a = target.parentElement) === null || _a === void 0 ? void 0 : _a.classList.contains("square")) {
+        target_id = target.parentElement.id;
+    }
+    else {
+        return;
+    }
+    if (target_id) {
+        console.log(target_id, pieceType, color);
+        let square = board.getSquare(target_id);
+        if (pieceType === PieceType.None) {
+            square.setPiece(null);
+        }
+        else {
+            let piece = new Piece(pieceType, color, square);
+        }
+    }
+    board.fromFEN(board.getFEN());
+});
 //# sourceMappingURL=edit.js.map

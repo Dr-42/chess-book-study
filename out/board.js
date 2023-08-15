@@ -360,5 +360,11 @@ export class Board {
             }
         }
     }
+    isSane() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let res = yield invoke("is_board_sane", { fen: this.getFEN() });
+            return res;
+        });
+    }
 }
 //# sourceMappingURL=board.js.map

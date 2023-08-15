@@ -221,6 +221,15 @@ fn get_san_move(
     result
 }
 
+#[tauri::command]
+fn is_board_sane(fen: String) -> bool {
+    let board = Board::from_str(&fen);
+    if board.is_err() {
+        return false;
+    }
+    true
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -228,7 +237,8 @@ fn main() {
             check_board_state,
             move_piece,
             get_king_square,
-            get_san_move
+            get_san_move,
+            is_board_sane
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
