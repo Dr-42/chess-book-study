@@ -10,6 +10,41 @@ if (!board_element) {
 let board = new Board(board_element);
 window.board = board;
 
+let whiteTurn: HTMLInputElement = document.getElementById("whiteTurn") as HTMLInputElement;
+if (whiteTurn) {
+    whiteTurn.addEventListener("change", () => {
+        board.currentPlayer = whiteTurn.checked ? PieceColor.White : PieceColor.Black;
+    });
+}
+
+let whiteOO: HTMLInputElement = document.getElementById("whiteOO") as HTMLInputElement;
+if (whiteOO) {
+    whiteOO.addEventListener("change", () => {
+        board.whiteOO = whiteOO.checked;
+    });
+}
+
+let whiteOOO: HTMLInputElement = document.getElementById("whiteOOO") as HTMLInputElement;
+if (whiteOOO) {
+    whiteOOO.addEventListener("change", () => {
+        board.whiteOOO = whiteOOO.checked;
+    });
+}
+
+let blackOO: HTMLInputElement = document.getElementById("blackOO") as HTMLInputElement;
+if (blackOO) {
+    blackOO.addEventListener("change", () => {
+        board.blackOO = blackOO.checked;
+    });
+}
+
+let blackOOO: HTMLInputElement = document.getElementById("blackOOO") as HTMLInputElement;
+if (blackOOO) {
+    blackOOO.addEventListener("change", () => {
+        board.blackOOO = blackOOO.checked;
+    });
+}
+
 window.onload = () => {
     let new_fen = localStorage.getItem("fen");
     if (new_fen !== null) {
@@ -40,15 +75,22 @@ window.onload = () => {
     if (new_currentPlayer !== null) {
         board.currentPlayer = parseInt(new_currentPlayer);
     }
+    whiteOO.checked = board.whiteOO;
+    whiteOOO.checked = board.whiteOOO;
+    blackOO.checked = board.blackOO;
+    blackOOO.checked = board.blackOOO;
+    whiteTurn.checked = board.currentPlayer === PieceColor.White;
 };
+
 
 let play_button = document.getElementById("play_button");
 if (play_button) {
     let stIDX = 0;
     play_button.addEventListener("click", async () => {
         let sane = await board.isSane();
-        if (!sane) {
-            alert("Board settings illegal");
+        if (sane !== 'ok') {
+            alert("Board settings illegal\n" + sane);
+            console.log(board.getFEN());
             return;
         }
         localStorage.setItem("fen", board.getFEN());
@@ -157,12 +199,43 @@ if (clear_button) {
         window.fen = "8/8/8/8/8/8/8/8 w KQkq - 0 1";
         board.fromFEN(window.fen);
         board.states.push(window.fen);
+        whiteOO.checked = false;
+        whiteOOO.checked = false;
+        blackOO.checked = false;
+        blackOOO.checked = false;
+        board.whiteOO = false;
+        board.whiteOOO = false;
+        board.blackOO = false;
+        board.blackOOO = false;
         board.stateIdx = 0;
     });
 }
 
+let reset_button = document.getElementById("reset_button");
+if (reset_button) {
+    reset_button.addEventListener("click", () => {
+        window.fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        board.fromFEN(window.fen);
+        board.states.push(window.fen);
+        whiteOO.checked = true;
+        whiteOOO.checked = true;
+        blackOO.checked = true;
+        blackOOO.checked = true;
+        board.whiteOO = true;
+        board.whiteOOO = true;
+        board.blackOO = true;
+        board.blackOOO = true;
+        board.stateIdx = 0;
+    });
+}
+
+
 board_element.addEventListener("click", event => {
     let color: PieceColor;
+    if (window.activePiece === undefined) {
+        alert("No piece selected");
+        return;
+    }
     if (window.activePiece === window.activePiece.toUpperCase()) {
         color = PieceColor.White;
     } else {

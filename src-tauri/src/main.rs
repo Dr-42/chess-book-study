@@ -222,12 +222,12 @@ fn get_san_move(
 }
 
 #[tauri::command]
-fn is_board_sane(fen: String) -> bool {
+fn is_board_sane(fen: String) -> String {
     let board = Board::from_str(&fen);
     if board.is_err() {
-        return false;
+        return board.err().unwrap().to_string();
     }
-    true
+    "ok".to_string()
 }
 
 fn main() {

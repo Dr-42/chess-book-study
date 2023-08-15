@@ -45,9 +45,13 @@
         </div>
         <div class="board_settings">
             <div>
-                <button id="clear_button" class="side_panel_button">🧹</button>
+                <button id="delete_button" class="side_panel_button">🧹</button>
             </div>
             <div class="checkboxes">
+                <div class="checkbox">
+                    <input type="checkbox" id="whiteTurn">
+                    <label for="whiteOO">White's Turn</label><br>
+                </div>
                 <div class="checkbox">
                     <input type="checkbox" id="whiteOO">
                     <label for="whiteOO">White O-O</label><br>
@@ -68,8 +72,8 @@
         </div>
         <div id="side_panel_buttons">
             <button id="play_button" class="side_panel_button">⏵</a></button>
-            <button id="reset_button" class="side_panel_button" onclick="board.startingPosition()">↺</button>
-            <button id="delete_button" class="side_panel_button">🗑</button>
+            <button id="reset_button" class="side_panel_button">↺</button>
+            <button id="clear_button" class="side_panel_button">🗑</button>
         </div>
     </div>
     <script type="module" src="./out/edit.js"></script>

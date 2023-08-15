@@ -368,8 +368,8 @@ export class Board {
         }
     }
 
-    async isSane(): Promise<boolean> {
-        let res: boolean = await invoke("is_board_sane", { fen: this.getFEN() });
+    async isSane(): Promise<string> {
+        let res: string = await invoke("is_board_sane", { fen: this.getFEN() });
         return res;
     }
 }
