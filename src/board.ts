@@ -117,6 +117,8 @@ export class Board {
                 // Show a dialog box to select the promotion piece
                 promotion_piece = await this.showDialogBoxForPromotion();
             }
+            const res1: string = await invoke("get_san_move", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmove_number, isWhite: this.current_player == PieceColor.White });
+            console.log(res1);
             const res: string = await invoke("move_piece", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece });
             if (res == 'illegal') {
                 throw new Error('Illegal move');
