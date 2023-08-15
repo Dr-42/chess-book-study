@@ -18,14 +18,12 @@ export class Piece {
     type: PieceType;
     color: PieceColor;
     square: Square;
-    has_moved: boolean;
     element: HTMLElement;
 
     constructor(type: PieceType, color: PieceColor, square: Square) {
         this.type = type;
         this.color = color;
         this.square = square;
-        this.has_moved = false;
         let element = document.createElement('div');
         element.classList.add('piece');
         if (this.color == PieceColor.White) {

@@ -5,29 +5,23 @@ import { invoke } from "../node_modules/@tauri-apps/api/index.js";
 export class Board {
     squares: Square[][];
     pieces: Piece[];
-    current_player: PieceColor;
+    currentPlayer: PieceColor;
     element: HTMLElement;
     rows: HTMLElement[];
     orig?: string | null;
     dest?: string | null;
-    first_click: boolean = true;
-    clicked_on_piece: boolean = false;
-    white_OO: boolean = false;
-    white_OOO: boolean = false;
-    black_OO: boolean = false;
-    black_OOO: boolean = false;
-    white_king_moved: boolean = false;
-    black_king_moved: boolean = false;
-    white_ks_rook_moved: boolean = false;
-    white_qs_rook_moved: boolean = false;
-    black_ks_rook_moved: boolean = false;
-    black_qs_rook_moved: boolean = false;
-    en_passant: string = '-';
-    halfmove_clock: number = 0;
-    fullmove_number: number = 1;
-    state_idx = 0;
+    firstClick: boolean = true;
+    clickedOnPiece: boolean = false;
+    whiteOO: boolean = false;
+    whiteOOO: boolean = false;
+    blackOO: boolean = false;
+    blackOOO: boolean = false;
+    enPassant: string = '-';
+    halfmoveClock: number = 0;
+    fullmoveNumber: number = 1;
+    stateIdx = 0;
     states: string[] = [];
-    san_moves: string[] = [""];
+    sanMoves: string[] = [""];
     moves: string[] = [""];
 
     constructor(element: HTMLElement) {
@@ -60,7 +54,7 @@ export class Board {
 
         this.element = element;
         this.rows = Array.from(element.querySelectorAll('.row'));
-        this.current_player = PieceColor.White;
+        this.currentPlayer = PieceColor.White;
         this.pieces = [];
 
         this.element = element;
@@ -69,7 +63,7 @@ export class Board {
     startingPosition() {
         let fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
         this.fromFEN(fen);
-        this.state_idx = 0;
+        this.stateIdx = 0;
         this.states.push(fen);
     }
 
@@ -114,11 +108,11 @@ export class Board {
         let movesList = document.getElementById('move_list');
         if (movesList) {
             movesList.innerHTML = '';
-            for (let i = 0; i < this.san_moves.length; i++) {
-                if (i === this.state_idx) {
-                    movesList.innerHTML += '<b><u>' + this.san_moves[i] + '</u></b>';
+            for (let i = 0; i < this.sanMoves.length; i++) {
+                if (i === this.stateIdx) {
+                    movesList.innerHTML += '<b><u>' + this.sanMoves[i] + '</u></b>';
                 } else {
-                    movesList.innerHTML += this.san_moves[i];
+                    movesList.innerHTML += this.sanMoves[i];
                 }
             }
         }
@@ -130,34 +124,34 @@ export class Board {
         let promotion_piece: string | null = null;
         try {
             // Check if promotion is needed
-            if ((this.current_player === PieceColor.White && end_row === 8) ||
-                (this.current_player === PieceColor.Black && end_row === 1)) {
+            if ((this.currentPlayer === PieceColor.White && end_row === 8) ||
+                (this.currentPlayer === PieceColor.Black && end_row === 1)) {
                 // Show a dialog box to select the promotion piece
                 promotion_piece = await this.showDialogBoxForPromotion();
             }
-            const res1: string = await invoke("get_san_move", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmove_number, isWhite: this.current_player == PieceColor.White });
+            const res1: string = await invoke("get_san_move", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmoveNumber, isWhite: this.currentPlayer == PieceColor.White });
             const res: string = await invoke("move_piece", { fen: this.get_fen(), from: from, to: to, promotion: promotion_piece });
             console.log(res);
             this.fromFEN(res);
-            if (this.current_player == PieceColor.Black) {
-                this.fullmove_number++;
-                console.log(this.fullmove_number);
+            if (this.currentPlayer == PieceColor.Black) {
+                this.fullmoveNumber++;
+                console.log(this.fullmoveNumber);
             }
             if (this.getSquare(from).getPiece()?.type == PieceType.Pawn) {
-                this.halfmove_clock = 0;
+                this.halfmoveClock = 0;
             } else {
-                this.halfmove_clock++;
+                this.halfmoveClock++;
             }
             let fen = this.get_fen();
-            if (this.state_idx !== this.states.length - 1) {
-                this.states = this.states.slice(0, this.state_idx + 1);
-                this.san_moves = this.san_moves.slice(0, this.state_idx + 1);
-                this.moves = this.moves.slice(0, this.state_idx + 1);
+            if (this.stateIdx !== this.states.length - 1) {
+                this.states = this.states.slice(0, this.stateIdx + 1);
+                this.sanMoves = this.sanMoves.slice(0, this.stateIdx + 1);
+                this.moves = this.moves.slice(0, this.stateIdx + 1);
             }
             this.states.push(fen);
-            this.san_moves.push(res1);
+            this.sanMoves.push(res1);
             this.moves.push(from + to);
-            this.state_idx++;
+            this.stateIdx++;
             this.update_moves();
         } catch (error) {
             console.error("An error occurred:", error);
@@ -207,27 +201,27 @@ export class Board {
             }
         }
 
-        fen += ' ' + (this.current_player == PieceColor.White ? 'w' : 'b');
+        fen += ' ' + (this.currentPlayer == PieceColor.White ? 'w' : 'b');
         let castling = '';
-        if (this.white_OO) {
+        if (this.whiteOO) {
             castling += 'K';
         }
-        if (this.white_OOO) {
+        if (this.whiteOOO) {
             castling += 'Q';
         }
-        if (this.black_OO) {
+        if (this.blackOO) {
             castling += 'k';
         }
-        if (this.black_OOO) {
+        if (this.blackOOO) {
             castling += 'q';
         }
         if (castling == '') {
             castling = '-';
         }
         fen += ' ' + castling;
-        fen += ' ' + this.en_passant;
-        fen += ' ' + this.halfmove_clock;
-        fen += ' ' + this.fullmove_number;
+        fen += ' ' + this.enPassant;
+        fen += ' ' + this.halfmoveClock;
+        fen += ' ' + this.fullmoveNumber;
         return fen;
     }
     fromFEN(fen: string) {
@@ -261,16 +255,16 @@ export class Board {
         }
 
         // Set the current player
-        this.current_player = (currentPlayer === 'w') ? PieceColor.White : PieceColor.Black;
+        this.currentPlayer = (currentPlayer === 'w') ? PieceColor.White : PieceColor.Black;
 
         // Set the castling availability
-        this.white_OO = castlingAvailability.includes('K');
-        this.white_OOO = castlingAvailability.includes('Q');
-        this.black_OO = castlingAvailability.includes('k');
-        this.black_OOO = castlingAvailability.includes('q');
+        this.whiteOO = castlingAvailability.includes('K');
+        this.whiteOOO = castlingAvailability.includes('Q');
+        this.blackOO = castlingAvailability.includes('k');
+        this.blackOOO = castlingAvailability.includes('q');
 
         // Set the en passant target
-        this.en_passant = (enPassantTarget === '-') ? '-' : enPassantTarget;
+        this.enPassant = (enPassantTarget === '-') ? '-' : enPassantTarget;
     }
 
     charToPieceType(char: string): PieceType {
@@ -307,7 +301,7 @@ export class Board {
 
     async get_king_square() {
         let player: string;
-        if (this.current_player == PieceColor.White) {
+        if (this.currentPlayer == PieceColor.White) {
             player = 'white';
         } else {
             player = 'black';

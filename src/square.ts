@@ -2,20 +2,6 @@
 import { Piece } from './piece.js';
 import { Board } from './board.js';
 
-export let square_colors = {
-    light: '#f0d9b5',
-    dark: '#b58863'
-}
-
-export class MoveData {
-    from: string | null;
-    to: string | null;
-    constructor(from: string | null, to: string | null) {
-        this.from = from;
-        this.to = to;
-    }
-}
-
 export class Square {
     x: number;
     y: number;

@@ -17,7 +17,6 @@ export class Piece {
         this.type = type;
         this.color = color;
         this.square = square;
-        this.has_moved = false;
         let element = document.createElement('div');
         element.classList.add('piece');
         if (this.color == PieceColor.White) {

@@ -1,13 +1,3 @@
-export let square_colors = {
-    light: '#f0d9b5',
-    dark: '#b58863'
-};
-export class MoveData {
-    constructor(from, to) {
-        this.from = from;
-        this.to = to;
-    }
-}
 export class Square {
     constructor(x, y, piece, board) {
         this.x = x;
