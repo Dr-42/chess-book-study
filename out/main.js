@@ -15,7 +15,7 @@ if (!board_element) {
 }
 let board = new Board(board_element);
 window.board = board;
-window.onclose = () => {
+window.onbeforeunload = () => {
     localStorage.setItem("fen", board.getFEN());
     localStorage.setItem("stateIdx", board.stateIdx.toString());
     localStorage.setItem("states", JSON.stringify(board.states));
@@ -54,6 +54,17 @@ window.onload = () => {
     if (new_currentPlayer !== null) {
         board.currentPlayer = parseInt(new_currentPlayer);
     }
+    if (board.stateIdx !== 0) {
+        let from = board.moves[board.stateIdx][0] + board.moves[board.stateIdx][1];
+        let to = board.moves[board.stateIdx][2] + board.moves[board.stateIdx][3];
+        let from_square = document.getElementById(from);
+        let to_square = document.getElementById(to);
+        if (from_square !== null && to_square !== null) {
+            from_square.classList.add("highlight");
+            to_square.classList.add("highlight");
+        }
+    }
+    board.updateMoves();
 };
 // Add a event listener to the edit button
 let edit_button = document.getElementById("edit_button");
