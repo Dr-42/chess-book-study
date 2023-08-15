@@ -11,6 +11,20 @@ let board = new Board(board_element);
 window.board = board;
 board.startingPosition();
 
+window.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+        if (board.state_idx > 0) {
+            board.state_idx--;
+            board.fromFEN(board.states[board.state_idx]);
+        }
+    } else if (event.key === "ArrowRight") {
+        if (board.state_idx < board.states.length - 1) {
+            board.state_idx++;
+            board.fromFEN(board.states[board.state_idx]);
+        }
+    }
+});
+
 // Add a event listener to the board to move pieces
 board_element.addEventListener("click", async (event) => {
     let target = event.target as HTMLElement;

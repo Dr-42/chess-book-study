@@ -25,6 +25,9 @@ export class Board {
     en_passant: string = '-';
     halfmove_clock: number = 0;
     fullmove_number: number = 1;
+    state_idx = 0;
+    states: string[] = [];
+
     constructor(element: HTMLElement) {
         let squares: Square[][] = [];
 
@@ -62,39 +65,10 @@ export class Board {
     }
 
     startingPosition() {
-        this.pieces = [];
-        let pieceOrder: PieceType[] = [PieceType.Rook, PieceType.Knight, PieceType.Bishop, PieceType.Queen, PieceType.King, PieceType.Bishop, PieceType.Knight, PieceType.Rook];
-        for (let i = 0; i < 8; i++) {
-            let piece = new Piece(pieceOrder[i], PieceColor.White, this.squares[0][i]);
-            this.squares[0][i].setPiece(piece);
-            this.pieces.push(piece);
-
-            piece = new Piece(PieceType.Pawn, PieceColor.White, this.squares[1][i]);
-            this.squares[1][i].setPiece(piece);
-            this.pieces.push(piece);
-
-            piece = new Piece(pieceOrder[i], PieceColor.Black, this.squares[7][i]);
-            this.squares[7][i].setPiece(piece);
-            this.pieces.push(piece);
-
-            piece = new Piece(PieceType.Pawn, PieceColor.Black, this.squares[6][i]);
-            this.squares[6][i].setPiece(piece);
-            this.pieces.push(piece);
-        }
-        this.black_OO = true;
-        this.black_OOO = true;
-        this.white_OO = true;
-        this.white_OOO = true;
-
-        this.white_king_moved = false;
-        this.black_king_moved = false;
-        this.white_ks_rook_moved = false;
-        this.white_qs_rook_moved = false;
-        this.black_ks_rook_moved = false;
-        this.black_qs_rook_moved = false;
-        this.en_passant = '-';
-        this.halfmove_clock = 0;
-        this.fullmove_number = 1;
+        let fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+        this.fromFEN(fen);
+        this.state_idx = 0;
+        this.states.push(fen);
     }
 
     async showDialogBoxForPromotion(): Promise<string> {
@@ -148,6 +122,13 @@ export class Board {
                 throw new Error('Illegal move');
             }
             this.fromFEN(res);
+            if (this.state_idx === this.states.length - 1) {
+                this.states.push(res);
+                this.state_idx++;
+            } else {
+                this.states[this.state_idx + 1] = res;
+                this.state_idx++;
+            }
         } catch (error) {
             console.error("An error occurred:", error);
         }
