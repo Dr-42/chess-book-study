@@ -123,12 +123,11 @@ export class Board {
             }
             this.fromFEN(res);
             if (this.state_idx === this.states.length - 1) {
-                this.states.push(res);
-                this.state_idx++;
             } else {
-                this.states[this.state_idx + 1] = res;
-                this.state_idx++;
+                this.states = this.states.slice(0, this.state_idx + 1);
             }
+            this.states.push(res);
+            this.state_idx++;
         } catch (error) {
             console.error("An error occurred:", error);
         }

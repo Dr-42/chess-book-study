@@ -1,11 +1,39 @@
 body {
     background-color: rgb(28, 28, 28);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: calc((64px * 8) + 200px + 10px);
+    height: calc(64px * 8);
+    padding: 0%;
+}
+
+#board_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     width: calc(64px * 8);
     height: calc(64px * 8);
+    flex-wrap: wrap;
+}
+
+#vert_space {
+    width: 10px;
+    height: 100%;
+}
+
+#move_list {
+    width: 200px;
+    height: 100%;
+    background-color: rgb(48, 48, 48);
+    color: white;
+    font-size: 20px;
+    overflow: auto;
 }
 
 .square {
-    border: 1px solid black;
     position: relative;
     width: 64px;
     height: 64px;
