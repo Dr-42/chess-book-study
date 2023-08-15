@@ -190,13 +190,6 @@ fn get_san_move(
         };
         result.push_str(promotion_letter);
     }
-    if board.status() == BoardStatus::Checkmate {
-        result.push_str("#");
-    }
-    let new_board = board.make_move_new(mov);
-    if new_board.null_move().is_none() {
-        result.push_str("+");
-    }
     if mov.get_source() == chess::Square::from_str("e1").unwrap()
         && mov.get_dest() == chess::Square::from_str("g1").unwrap()
         && board.piece_on(mov.get_source()) == Some(Piece::King)
@@ -217,6 +210,12 @@ fn get_san_move(
         && board.piece_on(mov.get_source()) == Some(Piece::King)
     {
         result = "O-O-O".to_string();
+    }
+    let new_board = board.make_move_new(mov);
+    if new_board.status() == BoardStatus::Checkmate {
+        result.push_str("#");
+    } else if new_board.null_move().is_none() {
+        result.push_str("+");
     }
     result.push_str(" ");
     result
