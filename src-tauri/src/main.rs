@@ -105,11 +105,14 @@ fn get_san_move(
     let moves = MoveGen::new_legal(&board);
     let piece = board.piece_on(from);
     let mut dup_source: Option<Square> = None;
+    let mut double_dup = false;
     for m in moves {
         if m.get_dest() == mov.get_dest() && m.get_source() != mov.get_source() {
             if board.piece_on(m.get_source()) == piece {
+                if dup_source.is_some() {
+                    double_dup = true;
+                }
                 dup_source = Some(m.get_source());
-                break;
             }
         }
     }
@@ -124,7 +127,7 @@ fn get_san_move(
     };
     result.push_str(piece_letter);
 
-    if dup_source.is_some() {
+    if dup_source.is_some() && !double_dup {
         if dup_source.unwrap().get_file() == from.get_file() {
             let rank = from.get_rank();
             let rank_str = match rank {
@@ -153,7 +156,47 @@ fn get_san_move(
             result.push_str(&file_str);
         }
     }
+    if double_dup {
+        result.push_str(&from.to_string());
+    }
+    if board.piece_on(mov.get_dest()).is_some() {
+        if piece.unwrap() == Piece::Pawn {
+            let file = from.get_file();
+            let file_str = match file {
+                chess::File::A => "a",
+                chess::File::B => "b",
+                chess::File::C => "c",
+                chess::File::D => "d",
+                chess::File::E => "e",
+                chess::File::F => "f",
+                chess::File::G => "g",
+                chess::File::H => "h",
+            };
+            result.push_str(&file_str);
+        }
+        result.push_str("x");
+    }
     result.push_str(&to.to_string());
+    if mov.get_promotion().is_some() {
+        let promotion = mov.get_promotion().unwrap();
+        result.push_str("=");
+        let promotion_letter: &str = match promotion {
+            Piece::Pawn => "",
+            Piece::Knight => "N",
+            Piece::Bishop => "B",
+            Piece::Rook => "R",
+            Piece::Queen => "Q",
+            Piece::King => "K",
+        };
+        result.push_str(promotion_letter);
+    }
+    if board.status() == BoardStatus::Checkmate {
+        result.push_str("#");
+    }
+    let new_board = board.make_move_new(mov);
+    if new_board.null_move().is_none() {
+        result.push_str("+");
+    }
     result.push_str(" ");
     result
 }

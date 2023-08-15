@@ -29,7 +29,7 @@ export class Board {
         this.fullmove_number = 1;
         this.state_idx = 0;
         this.states = [];
-        this.san_moves = [];
+        this.san_moves = [""];
         let squares = [];
         // Create squares
         squares = new Array(8);

@@ -27,7 +27,7 @@ export class Board {
     fullmove_number: number = 1;
     state_idx = 0;
     states: string[] = [];
-    san_moves: string[] = [];
+    san_moves: string[] = [""];
 
     constructor(element: HTMLElement) {
         let squares: Square[][] = [];
