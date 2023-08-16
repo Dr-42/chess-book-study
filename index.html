@@ -22,13 +22,18 @@
             <input type="checkbox" id="on_top">
             <label for="on_top">Always On top</label>
         </div>
-        <div id="side_panel_buttons">
+        <div class="side_panel_buttons">
             <button id="edit_button" class="side_panel_button">✎</button>
-            <button id="reset_button" class="side_panel_button" onclick="board.rotate()">↺</button>
+            <button id="reset_button" class="side_panel_button" onclick="board.rotate()">⇅</button>
             <button id="back_button" class="side_panel_button" onclick="board.forward()">←</button>
             <button id="forward_button" class="side_panel_button" onclick="board.backward()">→</button>
         </div>
-
+        <div class="side_panel_buttons">
+            <button id="save_button" class="side_panel_button">💾</button>
+            <button id="load_button" class="side_panel_button">📁</button>
+            <button id="piece_theme_button" class="side_panel_button">🧩</button>
+            <button id="board_theme_button" class="side_panel_button">🎨</button>
+        </div>
     </div>
     <script type="module" src="./out/main.js"></script>
 </body>

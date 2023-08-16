@@ -1,5 +1,5 @@
 import { Board } from "./board.js";
-import { PieceColor } from "./piece.js";
+import { Piece, PieceColor } from "./piece.js";
 import { appWindow } from "../node_modules/@tauri-apps/api/window";
 
 let board_element = document.getElementById("board_div");
@@ -41,6 +41,10 @@ window.onload = () => {
             onTopCheckbox.checked = false;
             appWindow.setAlwaysOnTop(false);
         }
+    }
+    let pieceTheme = localStorage.getItem("pieceTheme");
+    if (pieceTheme !== null) {
+        Piece.image = `src/assets/${pieceTheme}.png`;
     }
 
     let new_fen = localStorage.getItem("fen");
@@ -107,6 +111,66 @@ if (edit_button) {
         window.location.href = "/edit.html";
     });
 }
+
+function create_piece_button(name: string, menu: HTMLDivElement): HTMLButtonElement {
+    let button = document.createElement("button");
+    menu.appendChild(button);
+    button.style.backgroundImage = `url(src/assets/${name}.png)`;
+    button.style.backgroundPositionX = `${3 * 64}px`;
+    button.style.backgroundPositionY = `${0 * 64}px`;
+    button.style.backgroundSize = `${64 * 6}px ${64 * 2}px`;
+    button.style.width = '64px';
+    button.style.height = '64px';
+    button.style.backgroundColor = 'rgba(28, 28, 28, 0.2)';
+
+    button.addEventListener("click", () => {
+        localStorage.setItem("pieceTheme", name);
+        Piece.image = `src/assets/${name}.png`;
+        board.fromFEN(board.getFEN());
+        menu.remove();
+    });
+    return button;
+}
+
+let pieceThemeMenu = document.createElement("div");
+let body = document.getElementsByTagName("body")[0];
+if (body) {
+    pieceThemeMenu.style.position = "fixed";
+    pieceThemeMenu.style.top = "50%";
+    pieceThemeMenu.style.left = "50%";
+    pieceThemeMenu.style.transform = "translate(-50%, -50%)";
+    pieceThemeMenu.style.zIndex = "100";
+    pieceThemeMenu.style.height = `${64 * 3}px`;
+    pieceThemeMenu.style.width = `${64 * 3}px`;
+}
+
+pieceThemeMenu.classList.add("piece_theme_menu");
+let alphaButton = create_piece_button("alpha", pieceThemeMenu);
+let californiaButton = create_piece_button("california", pieceThemeMenu);
+let cburnetteButton = create_piece_button("cburnette", pieceThemeMenu);
+let chess7Button = create_piece_button("chess7", pieceThemeMenu);
+let chessnutButton = create_piece_button("chessnut", pieceThemeMenu);
+let companionButton = create_piece_button("companion", pieceThemeMenu);
+let metalButton = create_piece_button("metal", pieceThemeMenu);
+let riohachaButton = create_piece_button("riohacha", pieceThemeMenu);
+let shapesButton = create_piece_button("shapes", pieceThemeMenu);
+pieceThemeMenu.appendChild(alphaButton);
+pieceThemeMenu.appendChild(californiaButton);
+pieceThemeMenu.appendChild(cburnetteButton);
+pieceThemeMenu.appendChild(chess7Button);
+pieceThemeMenu.appendChild(chessnutButton);
+pieceThemeMenu.appendChild(companionButton);
+pieceThemeMenu.appendChild(metalButton);
+pieceThemeMenu.appendChild(riohachaButton);
+pieceThemeMenu.appendChild(shapesButton);
+
+let pieceThemeButton = document.getElementById("piece_theme_button");
+if (pieceThemeButton) {
+    pieceThemeButton.addEventListener("click", () => {
+        document.body.appendChild(pieceThemeMenu);
+    });
+}
+
 
 window.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {

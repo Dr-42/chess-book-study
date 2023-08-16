@@ -20,6 +20,7 @@ export class Piece {
     color: PieceColor;
     square: Square;
     element: HTMLElement;
+    static image: string = 'src/assets/alpha.png';
 
     constructor(type: PieceType, color: PieceColor, square: Square) {
         this.type = type;
@@ -36,7 +37,7 @@ export class Piece {
         } else {
             element.classList.add('black');
         }
-        element.style.backgroundImage = `url('src/assets/alpha.png')`;
+        element.style.backgroundImage = `url(${Piece.image})`;
         let original_width = 128 * 6;
         let original_height = 128 * 2;
         let scale = 0.5;

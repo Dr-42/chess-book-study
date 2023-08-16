@@ -65,20 +65,19 @@ a {
     padding: 10px;
 }
 
-#side_panel_buttons {
+.side_panel_buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 200px;
-    height: 20%;
     padding: 10px;
 }
 
 .side_panel_button {
     width: 40px;
     height: 40px;
-    margin: 10px;
+    margin: 5px;
     border-radius: 20%;
     background-color: rgb(48, 48, 48);
     color: white;
