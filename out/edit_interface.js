@@ -87,6 +87,8 @@ export function create_edit_interface() {
         blackOO.checked = board.blackOO;
         blackOOO.checked = board.blackOOO;
         whiteTurn.checked = board.currentPlayer === PieceColor.White;
+        localStorage.setItem("fullMoveNumber", "1");
+        localStorage.setItem("halfMoveClock", "0");
     };
     let play_button = document.getElementById("play_button");
     if (play_button) {

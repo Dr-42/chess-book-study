@@ -25,6 +25,8 @@ export function create_play_interface() {
         localStorage.setItem("moves", JSON.stringify(board.moves));
         localStorage.setItem("sanMoves", JSON.stringify(board.sanMoves));
         localStorage.setItem("onTop", onTopCheckbox.checked.toString());
+        localStorage.setItem("fullMoveNumber", board.fullmoveNumber.toString());
+        localStorage.setItem("halfMoveClock", board.halfmoveClock.toString());
     };
 
     window.onload = () => {
@@ -77,6 +79,14 @@ export function create_play_interface() {
                 from_square.classList.add("highlight");
                 to_square.classList.add("highlight");
             }
+        }
+        let new_fullMoveNumber = localStorage.getItem("fullMoveNumber");
+        if (new_fullMoveNumber !== null) {
+            board.fullmoveNumber = parseInt(new_fullMoveNumber);
+        }
+        let new_halfMoveClock = localStorage.getItem("halfMoveClock");
+        if (new_halfMoveClock !== null) {
+            board.halfmoveClock = parseInt(new_halfMoveClock);
         }
         board.updateMoves();
     };
