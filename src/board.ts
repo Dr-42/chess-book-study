@@ -133,8 +133,8 @@ export class Board {
         let promotion_piece: string | null = null;
         try {
             // Check if promotion is needed
-            if ((this.currentPlayer === PieceColor.White && end_row === 8) ||
-                (this.currentPlayer === PieceColor.Black && end_row === 1)) {
+            if ((this.currentPlayer === PieceColor.White && end_row === 8 && this.getSquare(from).getPiece()?.type === PieceType.Pawn) ||
+                (this.currentPlayer === PieceColor.Black && end_row === 1 && this.getSquare(from).getPiece()?.type === PieceType.Pawn)) {
                 // Show a dialog box to select the promotion piece
                 promotion_piece = await this.showDialogBoxForPromotion();
             }

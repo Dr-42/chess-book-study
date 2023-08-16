@@ -72,10 +72,6 @@ window.onload = () => {
     if (new_sanMoves !== null) {
         board.sanMoves = JSON.parse(new_sanMoves);
     }
-    let new_currentPlayer = localStorage.getItem("currentPlayer");
-    if (new_currentPlayer !== null) {
-        board.currentPlayer = parseInt(new_currentPlayer);
-    }
     whiteOO.checked = board.whiteOO;
     whiteOOO.checked = board.whiteOOO;
     blackOO.checked = board.blackOO;

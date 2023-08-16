@@ -16,7 +16,6 @@ window.onbeforeunload = () => {
     localStorage.setItem("states", JSON.stringify(board.states));
     localStorage.setItem("moves", JSON.stringify(board.moves));
     localStorage.setItem("sanMoves", JSON.stringify(board.sanMoves));
-    localStorage.setItem("currentPlayer", board.currentPlayer.toString());
 };
 
 window.onload = () => {
@@ -44,10 +43,6 @@ window.onload = () => {
     let new_sanMoves = localStorage.getItem("sanMoves");
     if (new_sanMoves !== null) {
         board.sanMoves = JSON.parse(new_sanMoves);
-    }
-    let new_currentPlayer = localStorage.getItem("currentPlayer");
-    if (new_currentPlayer !== null) {
-        board.currentPlayer = parseInt(new_currentPlayer);
     }
     if (board.stateIdx !== 0) {
         let from = board.moves[board.stateIdx][0] + board.moves[board.stateIdx][1];

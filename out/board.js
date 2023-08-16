@@ -120,14 +120,14 @@ export class Board {
         }
     }
     movePiece(from, to) {
-        var _a;
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function* () {
             let end_row = parseInt(to[1]);
             let promotion_piece = null;
             try {
                 // Check if promotion is needed
-                if ((this.currentPlayer === PieceColor.White && end_row === 8) ||
-                    (this.currentPlayer === PieceColor.Black && end_row === 1)) {
+                if ((this.currentPlayer === PieceColor.White && end_row === 8 && ((_a = this.getSquare(from).getPiece()) === null || _a === void 0 ? void 0 : _a.type) === PieceType.Pawn) ||
+                    (this.currentPlayer === PieceColor.Black && end_row === 1 && ((_b = this.getSquare(from).getPiece()) === null || _b === void 0 ? void 0 : _b.type) === PieceType.Pawn)) {
                     // Show a dialog box to select the promotion piece
                     promotion_piece = yield this.showDialogBoxForPromotion();
                 }
@@ -137,7 +137,7 @@ export class Board {
                 if (this.currentPlayer == PieceColor.Black) {
                     this.fullmoveNumber++;
                 }
-                if (((_a = this.getSquare(from).getPiece()) === null || _a === void 0 ? void 0 : _a.type) == PieceType.Pawn) {
+                if (((_c = this.getSquare(from).getPiece()) === null || _c === void 0 ? void 0 : _c.type) == PieceType.Pawn) {
                     this.halfmoveClock = 0;
                 }
                 else {
