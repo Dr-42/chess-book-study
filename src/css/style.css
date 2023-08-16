@@ -65,6 +65,18 @@ a {
     padding: 10px;
 }
 
+#fen_text {
+    width: 180px;
+    height: 18%;
+    align-self: normal;
+    background-color: rgb(48, 48, 48);
+    color: white;
+    font-size: 15px;
+    overflow: hidden;
+    word-wrap: break-word;
+    padding: 10px;
+}
+
 .side_panel_buttons {
     display: flex;
     flex-direction: row;

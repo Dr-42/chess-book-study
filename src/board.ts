@@ -125,6 +125,10 @@ export class Board {
                 }
             }
         }
+        let fenTextArea = document.getElementById('fen_text');
+        if (fenTextArea) {
+            fenTextArea.innerHTML = this.getFEN();
+        }
     }
 
 
@@ -144,7 +148,7 @@ export class Board {
             if (this.currentPlayer == PieceColor.Black) {
                 this.fullmoveNumber++;
             }
-            if (this.getSquare(from).getPiece()?.type == PieceType.Pawn) {
+            if (this.getSquare(to).getPiece()?.type == PieceType.Pawn) {
                 this.halfmoveClock = 0;
             } else {
                 this.halfmoveClock++;

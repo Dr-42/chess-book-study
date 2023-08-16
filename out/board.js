@@ -118,6 +118,10 @@ export class Board {
                 }
             }
         }
+        let fenTextArea = document.getElementById('fen_text');
+        if (fenTextArea) {
+            fenTextArea.innerHTML = this.getFEN();
+        }
     }
     movePiece(from, to) {
         var _a, _b, _c;
@@ -137,7 +141,7 @@ export class Board {
                 if (this.currentPlayer == PieceColor.Black) {
                     this.fullmoveNumber++;
                 }
-                if (((_c = this.getSquare(from).getPiece()) === null || _c === void 0 ? void 0 : _c.type) == PieceType.Pawn) {
+                if (((_c = this.getSquare(to).getPiece()) === null || _c === void 0 ? void 0 : _c.type) == PieceType.Pawn) {
                     this.halfmoveClock = 0;
                 }
                 else {
