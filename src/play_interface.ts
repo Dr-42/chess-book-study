@@ -1,6 +1,8 @@
 import { Board } from "./board.js";
 import { Piece, PieceColor } from "./piece.js";
 import { appWindow } from "../node_modules/@tauri-apps/api/window";
+import { save, open } from "../node_modules/@tauri-apps/api/dialog";
+import { dialog, fs } from "../node_modules/@tauri-apps/api/index.js";
 
 export function create_play_interface() {
     let board_element = document.getElementById("board_div");
@@ -172,6 +174,97 @@ export function create_play_interface() {
         });
     }
 
+    let saveButton = document.getElementById("save_button");
+    if (saveButton) {
+        saveButton.addEventListener("click", async () => {
+            //localStorage.setItem("fen", board.getFEN());
+            //localStorage.setItem("stateIdx", board.stateIdx.toString());
+            //localStorage.setItem("states", JSON.stringify(board.states));
+            //localStorage.setItem("moves", JSON.stringify(board.moves));
+            //localStorage.setItem("sanMoves", JSON.stringify(board.sanMoves));
+            //localStorage.setItem("onTop", onTopCheckbox.checked.toString());
+            //localStorage.setItem("fullMoveNumber", board.fullmoveNumber.toString());
+            //localStorage.setItem("halfMoveClock", board.halfmoveClock.toString());
+            // All this is to be added to the file
+            // Save in binary format
+            let contents = "fen:" + board.getFEN() + "\n";
+            contents += "stateIdx:" + board.stateIdx.toString() + "\n";
+            contents += "states:" + JSON.stringify(board.states) + "\n";
+            contents += "moves:" + JSON.stringify(board.moves) + "\n";
+            contents += "sanMoves:" + JSON.stringify(board.sanMoves) + "\n";
+            contents += "onTop:" + onTopCheckbox.checked.toString() + "\n";
+            contents += "fullMoveNumber:" + board.fullmoveNumber.toString() + "\n";
+            contents += "halfMoveClock:" + board.halfmoveClock.toString() + "\n";
+            const fl = await save({
+                defaultPath: "game.cbs",
+                filters: [{
+                    name: "Chessboard Save",
+                    extensions: ["cbs"]
+                }]
+            });
+            if (fl !== null) {
+                await fs.writeFile({
+                    path: fl,
+                    contents: contents
+                });
+            }
+        });
+    }
+
+    let loadButton = document.getElementById("load_button");
+    if (loadButton) {
+        loadButton.addEventListener("click", async () => {
+            const fl = await open({
+                filters: [{
+                    name: "Chessboard Save",
+                    extensions: ["cbs"]
+                }]
+            });
+            if (Array.isArray(fl)) {
+                alert("Please select only one file");
+                return;
+            } else if (fl === null) {
+                return;
+            } else {
+                let contents = await fs.readTextFile(fl);
+                let lines = contents.split("\n");
+                let fen = lines[0].split(":")[1];
+                let stateIdx = parseInt(lines[1].split(":")[1]);
+                let states = JSON.parse(lines[2].split(":")[1]);
+                let moves = JSON.parse(lines[3].split(":")[1]);
+                let sanMoves = JSON.parse(lines[4].split(":")[1]);
+                let onTop = lines[5].split(":")[1];
+                let fullMoveNumber = parseInt(lines[6].split(":")[1]);
+                let halfMoveClock = parseInt(lines[7].split(":")[1]);
+                board.fromFEN(fen);
+                board.states = states;
+                board.stateIdx = stateIdx;
+                board.moves = moves;
+                board.sanMoves = sanMoves;
+                board.fullmoveNumber = fullMoveNumber;
+                board.halfmoveClock = halfMoveClock;
+                if (onTop === "true") {
+                    onTopCheckbox.checked = true;
+                    appWindow.setAlwaysOnTop(true);
+                } else {
+                    onTopCheckbox.checked = false;
+                    appWindow.setAlwaysOnTop(false);
+                }
+                board.updateMoves();
+                board.resetColors();
+                if (board.stateIdx !== 0) {
+                    let from = board.moves[board.stateIdx][0] + board.moves[board.stateIdx][1];
+                    let to = board.moves[board.stateIdx][2] + board.moves[board.stateIdx][3];
+                    let from_square = document.getElementById(from);
+                    let to_square = document.getElementById(to);
+                    if (from_square !== null && to_square !== null) {
+                        from_square.classList.add("highlight");
+                        to_square.classList.add("highlight");
+                    }
+                }
+            }
+        });
+    }
 
     window.addEventListener("keydown", (event) => {
         if (event.key === "ArrowLeft") {
