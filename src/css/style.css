@@ -16,6 +16,19 @@ a {
     color: white;
 }
 
+#space_before_check {
+    background-color: rgb(28, 28, 28);
+    height: 20px;
+}
+
+#on_top_check {
+    background-color: rgb(48, 48, 48);
+    color: white;
+    font-size: 15px;
+    justify-content: left;
+    padding: 5px;
+}
+
 #side_panel {
     display: flex;
     flex-direction: column;

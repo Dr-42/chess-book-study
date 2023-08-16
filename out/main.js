@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { Board } from "./board.js";
 import { PieceColor } from "./piece.js";
+import { appWindow } from "../node_modules/@tauri-apps/api/window";
 let board_element = document.getElementById("board_div");
 if (!board_element) {
     throw new Error("Board element not found");
@@ -30,8 +31,20 @@ window.onbeforeunload = () => {
     localStorage.setItem("states", JSON.stringify(board.states));
     localStorage.setItem("moves", JSON.stringify(board.moves));
     localStorage.setItem("sanMoves", JSON.stringify(board.sanMoves));
+    localStorage.setItem("onTop", onTopCheckbox.checked.toString());
 };
 window.onload = () => {
+    let onTop = localStorage.getItem("onTop");
+    if (onTop !== null) {
+        if (onTop === "true") {
+            onTopCheckbox.checked = true;
+            appWindow.setAlwaysOnTop(true);
+        }
+        else {
+            onTopCheckbox.checked = false;
+            appWindow.setAlwaysOnTop(false);
+        }
+    }
     let new_fen = localStorage.getItem("fen");
     if (new_fen !== null) {
         window.fen = new_fen;
@@ -70,6 +83,19 @@ window.onload = () => {
     }
     board.updateMoves();
 };
+let onTopCheckbox = document.getElementById("on_top");
+if (onTopCheckbox !== null) {
+    onTopCheckbox.addEventListener("change", () => __awaiter(void 0, void 0, void 0, function* () {
+        if (onTopCheckbox.checked) {
+            yield appWindow.setAlwaysOnTop(true);
+            localStorage.setItem("onTop", "true");
+        }
+        else {
+            yield appWindow.setAlwaysOnTop(false);
+            localStorage.setItem("onTop", "false");
+        }
+    }));
+}
 // Add a event listener to the edit button
 let edit_button = document.getElementById("edit_button");
 if (edit_button) {

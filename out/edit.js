@@ -45,6 +45,14 @@ if (blackOOO) {
         board.blackOOO = blackOOO.checked;
     });
 }
+window.onresize = () => __awaiter(void 0, void 0, void 0, function* () {
+    let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
+    let body = document.getElementsByTagName("body")[0];
+    if (body) {
+        body.style.scale = scalefact.toString();
+        window.resizeTo(748 * scalefact, 532 * scalefact);
+    }
+});
 window.onload = () => {
     let new_fen = localStorage.getItem("fen");
     if (new_fen !== null) {
