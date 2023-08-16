@@ -31,7 +31,7 @@ class Piece {
         else {
             element.classList.add('black');
         }
-        element.style.backgroundImage = `url(${Piece.image})`;
+        element.style.backgroundImage = `url(src/assets/${Piece.image}.png)`;
         let original_width = 128 * 6;
         let original_height = 128 * 2;
         let scale = 0.5;

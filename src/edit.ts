@@ -47,11 +47,8 @@ if (blackOOO) {
 
 window.onresize = async () => {
     let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
-    let body = document.getElementsByTagName("body")[0];
-    if (body) {
-        body.style.scale = scalefact.toString();
-        window.resizeTo(748 * scalefact, 532 * scalefact);
-    }
+    document.body.style.scale = scalefact.toString();
+    window.resizeTo(748 * scalefact, 532 * scalefact);
 }
 
 window.onload = () => {
@@ -60,6 +57,10 @@ window.onload = () => {
         window.fen = new_fen;
     } else {
         window.fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    }
+    let pieceTheme = localStorage.getItem("pieceTheme");
+    if (pieceTheme !== null) {
+        Piece.image = pieceTheme;
     }
     board.fromFEN(window.fen);
     board.states.push(window.fen);

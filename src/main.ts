@@ -15,11 +15,8 @@ console.log(window.innerWidth, window.innerHeight);
 
 window.onresize = async () => {
     let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
-    let body = document.getElementsByTagName("body")[0];
-    if (body) {
-        body.style.scale = scalefact.toString();
-        window.resizeTo(748 * scalefact, 532 * scalefact);
-    }
+    document.body.style.scale = scalefact.toString();
+    window.resizeTo(748 * scalefact, 532 * scalefact);
 }
 
 window.onbeforeunload = () => {
@@ -44,7 +41,7 @@ window.onload = () => {
     }
     let pieceTheme = localStorage.getItem("pieceTheme");
     if (pieceTheme !== null) {
-        Piece.image = `src/assets/${pieceTheme}.png`;
+        Piece.image = pieceTheme;
     }
 
     let new_fen = localStorage.getItem("fen");
@@ -125,7 +122,7 @@ function create_piece_button(name: string, menu: HTMLDivElement): HTMLButtonElem
 
     button.addEventListener("click", () => {
         localStorage.setItem("pieceTheme", name);
-        Piece.image = `src/assets/${name}.png`;
+        Piece.image = name;
         board.fromFEN(board.getFEN());
         menu.remove();
     });
@@ -133,16 +130,13 @@ function create_piece_button(name: string, menu: HTMLDivElement): HTMLButtonElem
 }
 
 let pieceThemeMenu = document.createElement("div");
-let body = document.getElementsByTagName("body")[0];
-if (body) {
-    pieceThemeMenu.style.position = "fixed";
-    pieceThemeMenu.style.top = "50%";
-    pieceThemeMenu.style.left = "50%";
-    pieceThemeMenu.style.transform = "translate(-50%, -50%)";
-    pieceThemeMenu.style.zIndex = "100";
-    pieceThemeMenu.style.height = `${64 * 3}px`;
-    pieceThemeMenu.style.width = `${64 * 3}px`;
-}
+pieceThemeMenu.style.position = "fixed";
+pieceThemeMenu.style.top = "50%";
+pieceThemeMenu.style.left = "50%";
+pieceThemeMenu.style.transform = "translate(-50%, -50%)";
+pieceThemeMenu.style.zIndex = "100";
+pieceThemeMenu.style.height = `${64 * 3}px`;
+pieceThemeMenu.style.width = `${64 * 3}px`;
 
 pieceThemeMenu.classList.add("piece_theme_menu");
 let alphaButton = create_piece_button("alpha", pieceThemeMenu);
