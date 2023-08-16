@@ -47,11 +47,11 @@
     "windows": [
       {
         "fullscreen": false,
-        "resizable": false,
+        "resizable": true,
         "title": "chess-book-study",
         "alwaysOnTop": true,
-        "width": 742,
-        "height": 528
+        "width": 747,
+        "height": 532
       }
     ]
   }

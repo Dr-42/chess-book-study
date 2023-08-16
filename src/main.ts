@@ -10,6 +10,17 @@ if (!board_element) {
 let board = new Board(board_element);
 window.board = board;
 
+console.log(window.innerWidth, window.innerHeight);
+
+window.onresize = async () => {
+    let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
+    let body = document.getElementsByTagName("body")[0];
+    if (body) {
+        body.style.scale = scalefact.toString();
+        window.resizeTo(748 * scalefact, 532 * scalefact);
+    }
+}
+
 window.onbeforeunload = () => {
     localStorage.setItem("fen", board.getFEN());
     localStorage.setItem("stateIdx", board.stateIdx.toString());

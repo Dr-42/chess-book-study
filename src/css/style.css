@@ -7,6 +7,8 @@ body {
     width: calc((64px * 8) + 200px + 10px);
     height: calc(64px * 8);
     padding: 0%;
+    transform-origin: 0% 0%;
+    overflow: hidden;
 }
 
 a {
