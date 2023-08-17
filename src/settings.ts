@@ -1,5 +1,6 @@
 import { Board } from "./board.js";
 import { appWindow } from "../node_modules/@tauri-apps/api/window";
+import { save } from "../node_modules/@tauri-apps/api/dialog.js";
 
 window.onresize = async () => {
     let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
@@ -13,6 +14,8 @@ window.onload = () => {
         let scalefact = parseFloat(localStorage.getItem("scalefact") as string);
         document.body.style.scale = scalefact.toString();
     }
+    loadSettings();
+    updateTheme();
 }
 
 appWindow.onCloseRequested(() => {
@@ -20,19 +23,76 @@ appWindow.onCloseRequested(() => {
     appWindow.close();
 });
 
+class Settings {
+    lightSquareColor: string = `${rgbToHex('rgb(205, 195, 205)')}`;
+    darkSquareColor: string = `${rgbToHex('rgb(105, 95, 105)')}`;
+    currentSquareHighlightColor: string = `${rgbToHex('rgb(100, 255, 0)')}`;
+    possibleMoveToSquareColor: string = `${rgbToHex('rgb(21, 103, 80)')}`;
+    previousMoveHighlightColor: string = `${rgbToHex('rgb(105, 105, 235)')}`;
+    fontSize: string = '15px';
+}
+
+let settings = new Settings();
+
+function updateSettings() {
+    let lightSquareColor = (document.getElementById('lightSquareColor') as HTMLInputElement).value;
+    let darkSquareColor = (document.getElementById('darkSquareColor') as HTMLInputElement).value;
+    let currentSquareHighlightColor = (document.getElementById('currentSquareHighlightColor') as HTMLInputElement).value;
+    let possibleMoveToSquareColor = (document.getElementById('possibleMoveToSquareColor') as HTMLInputElement).value;
+    let previousMoveHighlightColor = (document.getElementById('previousMoveHighlightColor') as HTMLInputElement).value;
+    let fontSize = (document.getElementById('fontSize') as HTMLInputElement).value;
+
+    settings = {
+        lightSquareColor: lightSquareColor,
+        darkSquareColor: darkSquareColor,
+        currentSquareHighlightColor: currentSquareHighlightColor,
+        possibleMoveToSquareColor: possibleMoveToSquareColor,
+        previousMoveHighlightColor: previousMoveHighlightColor,
+        fontSize: fontSize
+    }
+    console.log(settings);
+}
+
+function saveSettings() {
+    localStorage.setItem('settings', JSON.stringify(settings));
+}
+
+function loadSettings() {
+    let settingsString = localStorage.getItem('settings');
+    if (settingsString !== null) {
+        settings = JSON.parse(settingsString);
+    }
+    // Set the values of the inputs
+    let lightSquareColor = (document.getElementById('lightSquareColor') as HTMLInputElement);
+    let darkSquareColor = (document.getElementById('darkSquareColor') as HTMLInputElement);
+    let currentSquareHighlightColor = (document.getElementById('currentSquareHighlightColor') as HTMLInputElement);
+    let possibleMoveToSquareColor = (document.getElementById('possibleMoveToSquareColor') as HTMLInputElement);
+    let previousMoveHighlightColor = (document.getElementById('previousMoveHighlightColor') as HTMLInputElement);
+    let fontSize = (document.getElementById('fontSize') as HTMLInputElement);
+    lightSquareColor.value = settings.lightSquareColor;
+    darkSquareColor.value = settings.darkSquareColor;
+    currentSquareHighlightColor.value = settings.currentSquareHighlightColor;
+    possibleMoveToSquareColor.value = settings.possibleMoveToSquareColor;
+    previousMoveHighlightColor.value = settings.previousMoveHighlightColor;
+    fontSize.value = settings.fontSize;
+}
+
 let okButton = document.getElementById('okButton');
 if (okButton) {
     okButton.addEventListener('click', function () {
-        const settings = {
-            lightSquareColor: (document.getElementById('lightSquareColor') as HTMLInputElement).value,
-            darkSquareColor: (document.getElementById('darkSquareColor') as HTMLInputElement).value,
-            currentSquareHighlightColor: (document.getElementById('currentSquareHighlightColor') as HTMLInputElement).value,
-            possibleMoveToSquareColor: (document.getElementById('possibleMoveToSquareColor') as HTMLInputElement).value,
-            previousMoveHighlightColor: (document.getElementById('previousMoveHighlightColor') as HTMLInputElement).value,
-            fontSize: (document.getElementById('fontSize') as HTMLInputElement).value
-        };
-        localStorage.setItem('chess-settings', JSON.stringify(settings));
+        updateSettings();
+        saveSettings();
         window.location.href = 'index.html';
+    });
+}
+
+let defaultButton = document.getElementById('defaultButton');
+if (defaultButton) {
+    defaultButton.addEventListener('click', function () {
+        settings = new Settings();
+        saveSettings();
+        loadSettings();
+        updateTheme();
     });
 }
 
@@ -65,4 +125,96 @@ if (boardDiv) {
     brd.getSquare('f4').element.classList.add('highlight-attack');
     brd.getSquare('g5').element.classList.add('highlight-attack');
     brd.getSquare('h6').element.classList.add('highlight-attack');
+}
+
+function hexToRgba(hex: string) {
+    let r = parseInt(hex.substring(1, 3), 16);
+    let g = parseInt(hex.substring(3, 5), 16);
+    let b = parseInt(hex.substring(5, 7), 16);
+    let a = parseInt(hex.substring(7, 9), 16) / 255;
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+
+function rgbToHex(rgb: string) {
+    let rgbaArray = rgb.substring(4, rgb.length - 1).split(', ');
+    let r = parseInt(rgbaArray[0]);
+    let g = parseInt(rgbaArray[1]);
+    let b = parseInt(rgbaArray[2]);
+    let rs = r.toString(16);
+    let gs = g.toString(16);
+    let bs = b.toString(16);
+    if (rs.length == 1) {
+        rs = '0' + rs;
+    }
+    if (gs.length == 1) {
+        gs = '0' + gs;
+    }
+    if (bs.length == 1) {
+        bs = '0' + bs;
+    }
+    let res = '#' + rs + gs + bs;
+    console.log(res);
+    return res;
+}
+
+let ruleSetOnce: boolean = false;
+
+function updateTheme() {
+    let styleSheet = document.styleSheets[0];
+    if (ruleSetOnce) {
+        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
+        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
+        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
+        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
+        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
+        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
+    }
+    ruleSetOnce = true;
+    styleSheet.insertRule(`.light-square { background-color: ${settings.lightSquareColor}; }`, styleSheet.cssRules.length);
+    styleSheet.insertRule(`.dark-square { background-color: ${settings.darkSquareColor}; }`, styleSheet.cssRules.length);
+    styleSheet.insertRule(`.highlight-current { background-color: ${settings.currentSquareHighlightColor}; }`, styleSheet.cssRules.length);
+    styleSheet.insertRule(`.highlight-attack { border-color: ${settings.possibleMoveToSquareColor}; }`, styleSheet.cssRules.length);
+    styleSheet.insertRule(`.highlight-attack::before { background-color: ${settings.possibleMoveToSquareColor}; }`, styleSheet.cssRules.length);
+    styleSheet.insertRule(`.highlight { background-color: ${settings.previousMoveHighlightColor}; }`, styleSheet.cssRules.length);
+}
+
+let lightSquareColor = document.getElementById('lightSquareColor');
+if (lightSquareColor) {
+    lightSquareColor.addEventListener('change', function () {
+        updateSettings();
+        updateTheme();
+    });
+}
+
+let darkSquareColor = document.getElementById('darkSquareColor');
+if (darkSquareColor) {
+    darkSquareColor.addEventListener('change', function () {
+        updateSettings();
+        updateTheme();
+    });
+}
+
+let currentSquareHighlightColor = document.getElementById('currentSquareHighlightColor');
+if (currentSquareHighlightColor) {
+    currentSquareHighlightColor.addEventListener('change', function () {
+        updateSettings();
+        updateTheme();
+    });
+}
+
+let possibleMoveToSquareColor = document.getElementById('possibleMoveToSquareColor');
+if (possibleMoveToSquareColor) {
+    possibleMoveToSquareColor.addEventListener('change', function () {
+        updateSettings();
+        updateTheme();
+    });
+}
+
+
+let previousMoveHighlightColor = document.getElementById('previousMoveHighlightColor');
+if (previousMoveHighlightColor) {
+    previousMoveHighlightColor.addEventListener('change', function () {
+        updateSettings();
+        updateTheme();
+    });
 }
