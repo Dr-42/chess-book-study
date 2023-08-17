@@ -178,6 +178,14 @@ export class Board {
                 squares[j].classList.remove('highlight-attack');
                 squares[j].classList.remove('highlight-check');
             }
+            if (this.stateIdx > 0) {
+                let from_square = document.getElementById(this.moves[this.stateIdx][0] + this.moves[this.stateIdx][1]);
+                let to_square = document.getElementById(this.moves[this.stateIdx][2] + this.moves[this.stateIdx][3]);
+                if (from_square !== null && to_square !== null) {
+                    from_square.classList.add("highlight");
+                    to_square.classList.add("highlight");
+                }
+            }
         }
     }
     getFEN() {
@@ -333,14 +341,6 @@ export class Board {
             this.stateIdx--;
             this.fromFEN(this.states[this.stateIdx]);
             this.resetColors();
-            let from = this.moves[this.stateIdx][0] + this.moves[this.stateIdx][1];
-            let to = this.moves[this.stateIdx][2] + this.moves[this.stateIdx][3];
-            let from_square = document.getElementById(from);
-            let to_square = document.getElementById(to);
-            if (from_square !== null && to_square !== null) {
-                from_square.classList.add("highlight");
-                to_square.classList.add("highlight");
-            }
             this.updateMoves();
             this.halfmoveClock--;
             if (this.halfmoveClock < 0) {
@@ -356,14 +356,6 @@ export class Board {
             this.stateIdx++;
             this.fromFEN(this.states[this.stateIdx]);
             this.resetColors();
-            let from = this.moves[this.stateIdx][0] + this.moves[this.stateIdx][1];
-            let to = this.moves[this.stateIdx][2] + this.moves[this.stateIdx][3];
-            let from_square = document.getElementById(from);
-            let to_square = document.getElementById(to);
-            if (from_square !== null && to_square !== null) {
-                from_square.classList.add("highlight");
-                to_square.classList.add("highlight");
-            }
             this.updateMoves();
             this.halfmoveClock++;
             if (this.halfmoveClock < 0) {

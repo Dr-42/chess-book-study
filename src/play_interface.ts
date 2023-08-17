@@ -72,16 +72,6 @@ export function create_play_interface() {
         if (new_sanMoves !== null) {
             board.sanMoves = JSON.parse(new_sanMoves);
         }
-        if (board.stateIdx !== 0) {
-            let from = board.moves[board.stateIdx][0] + board.moves[board.stateIdx][1];
-            let to = board.moves[board.stateIdx][2] + board.moves[board.stateIdx][3];
-            let from_square = document.getElementById(from);
-            let to_square = document.getElementById(to);
-            if (from_square !== null && to_square !== null) {
-                from_square.classList.add("highlight");
-                to_square.classList.add("highlight");
-            }
-        }
         let new_fullMoveNumber = localStorage.getItem("fullMoveNumber");
         if (new_fullMoveNumber !== null) {
             board.fullmoveNumber = parseInt(new_fullMoveNumber);
@@ -90,6 +80,7 @@ export function create_play_interface() {
         if (new_halfMoveClock !== null) {
             board.halfmoveClock = parseInt(new_halfMoveClock);
         }
+        board.resetColors();
         board.updateMoves();
     };
 
@@ -252,16 +243,6 @@ export function create_play_interface() {
                 }
                 board.updateMoves();
                 board.resetColors();
-                if (board.stateIdx !== 0) {
-                    let from = board.moves[board.stateIdx][0] + board.moves[board.stateIdx][1];
-                    let to = board.moves[board.stateIdx][2] + board.moves[board.stateIdx][3];
-                    let from_square = document.getElementById(from);
-                    let to_square = document.getElementById(to);
-                    if (from_square !== null && to_square !== null) {
-                        from_square.classList.add("highlight");
-                        to_square.classList.add("highlight");
-                    }
-                }
             }
         });
     }
@@ -340,10 +321,8 @@ export function create_play_interface() {
             if (orig_square !== null && dest_square !== null) {
                 let possible_targets = await (board.getMoveSquares(board.orig));
                 if (possible_targets && (possible_targets.indexOf(board.dest) > -1)) {
-                    board.resetColors();
-                    orig_square.classList.add("highlight");
-                    dest_square.classList.add("highlight");
                     await (board.movePiece(board.orig, board.dest));
+                    board.resetColors();
                     board.clickedOnPiece = false;
                     let state = await (board.checkState());
                     if (state === "checkmate") {
