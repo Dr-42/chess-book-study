@@ -280,6 +280,8 @@ export function create_play_interface() {
         if (target.classList.contains("square")) {
             if (!board.firstClick) {
                 board.dest = target.id;
+            } else {
+                return;
             }
         }
         if (target.classList.contains("piece") || target.classList.contains("flipped_piece")) {

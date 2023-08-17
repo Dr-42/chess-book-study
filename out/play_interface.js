@@ -279,6 +279,9 @@ export function create_play_interface() {
             if (!board.firstClick) {
                 board.dest = target.id;
             }
+            else {
+                return;
+            }
         }
         if (target.classList.contains("piece") || target.classList.contains("flipped_piece")) {
             // Check if the piece of the current player
