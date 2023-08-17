@@ -16,7 +16,7 @@
       "window": {
         "all": false,
         "center": false,
-        "close": false,
+        "close": true,
         "create": false,
         "hide": false,
         "maximize": false,

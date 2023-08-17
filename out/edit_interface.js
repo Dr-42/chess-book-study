@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { Board } from "./board.js";
 import { PieceColor, PieceType, Piece } from "./piece.js";
+import { appWindow } from "../node_modules/@tauri-apps/api/window";
 export function create_edit_interface() {
     let board_element = document.getElementById("board_div");
     if (!board_element) {
@@ -50,8 +51,17 @@ export function create_edit_interface() {
         let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
         document.body.style.scale = scalefact.toString();
         window.resizeTo(748 * scalefact, 532 * scalefact);
+        localStorage.setItem('scalefact', scalefact.toString());
+    });
+    appWindow.onCloseRequested(() => {
+        localStorage.removeItem("scalefact");
+        appWindow.close();
     });
     window.onload = () => {
+        if (localStorage.getItem("scalefact") !== null) {
+            let scalefact = parseFloat(localStorage.getItem("scalefact"));
+            document.body.style.scale = scalefact.toString();
+        }
         let new_fen = localStorage.getItem("fen");
         if (new_fen !== null) {
             window.fen = new_fen;

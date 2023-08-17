@@ -2,7 +2,7 @@ import { Board } from "./board.js";
 import { Piece, PieceColor } from "./piece.js";
 import { appWindow } from "../node_modules/@tauri-apps/api/window";
 import { save, open } from "../node_modules/@tauri-apps/api/dialog";
-import { dialog, fs } from "../node_modules/@tauri-apps/api/index.js";
+import { fs } from "../node_modules/@tauri-apps/api/index.js";
 
 export function create_play_interface() {
     let board_element = document.getElementById("board_div");
@@ -18,6 +18,7 @@ export function create_play_interface() {
         let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
         document.body.style.scale = scalefact.toString();
         window.resizeTo(748 * scalefact, 532 * scalefact);
+        localStorage.setItem('scalefact', scalefact.toString());
     }
 
     window.onbeforeunload = () => {
@@ -31,7 +32,16 @@ export function create_play_interface() {
         localStorage.setItem("halfMoveClock", board.halfmoveClock.toString());
     };
 
+    appWindow.onCloseRequested(() => {
+        localStorage.removeItem("scalefact");
+        appWindow.close();
+    });
+
     window.onload = () => {
+        if (localStorage.getItem("scalefact") !== null) {
+            let scalefact = parseFloat(localStorage.getItem("scalefact") as string);
+            document.body.style.scale = scalefact.toString();
+        }
         let onTop = localStorage.getItem("onTop");
         if (onTop !== null) {
             if (onTop === "true") {
