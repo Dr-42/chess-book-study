@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { Piece, PieceColor, PieceType } from "./piece.js";
 import { Square } from "./square.js";
 import { invoke } from "../node_modules/@tauri-apps/api/index.js";
+import { Snd } from "./sound.js";
 export class Board {
     constructor(element) {
         this.firstClick = true;
@@ -135,6 +136,7 @@ export class Board {
                     // Show a dialog box to select the promotion piece
                     promotion_piece = yield this.showDialogBoxForPromotion();
                 }
+                let capture = this.getSquare(to).getPiece() !== null;
                 const res1 = yield invoke("get_san_move", { fen: this.getFEN(), from: from, to: to, promotion: promotion_piece, moveNum: this.fullmoveNumber, isWhite: this.currentPlayer == PieceColor.White });
                 const res = yield invoke("move_piece", { fen: this.getFEN(), from: from, to: to, promotion: promotion_piece });
                 this.fromFEN(res);
@@ -158,6 +160,14 @@ export class Board {
                 this.moves.push(from + to);
                 this.stateIdx++;
                 this.updateMoves();
+                if (capture) {
+                    let audio = new Audio(Snd.capture);
+                    audio.play();
+                }
+                else {
+                    let audio = new Audio(Snd.move);
+                    audio.play();
+                }
             }
             catch (error) {
                 console.error("An error occurred:", error);

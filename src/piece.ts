@@ -1,4 +1,5 @@
 import { Square } from "./square.js";
+import { PieceImage } from "./pieceImage.js";
 
 export enum PieceType {
     Pawn,
@@ -37,7 +38,37 @@ export class Piece {
         } else {
             element.classList.add('black');
         }
-        element.style.backgroundImage = `url(src/assets/${Piece.image}.png)`;
+        let image = '';
+        switch (Piece.image) {
+            case 'alpha':
+                image = PieceImage.alpha;
+                break;
+            case 'california':
+                image = PieceImage.california;
+                break;
+            case 'cburnette':
+                image = PieceImage.cburnette;
+                break;
+            case 'chess7':
+                image = PieceImage.chess7;
+                break;
+            case 'chessnut':
+                image = PieceImage.chessnut;
+                break;
+            case 'companion':
+                image = PieceImage.companion;
+                break;
+            case 'metal':
+                image = PieceImage.metal;
+                break;
+            case 'riohacha':
+                image = PieceImage.riohacha;
+                break;
+            case 'shapes':
+                image = PieceImage.shapes;
+                break;
+        }
+        element.style.backgroundImage = `url(${image})`;
         let original_width = 128 * 6;
         let original_height = 128 * 2;
         let scale = 0.5;

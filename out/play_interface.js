@@ -12,6 +12,7 @@ import { Piece, PieceColor } from "./piece.js";
 import { appWindow } from "../node_modules/@tauri-apps/api/window";
 import { save, open } from "../node_modules/@tauri-apps/api/dialog";
 import { fs } from "../node_modules/@tauri-apps/api/index.js";
+import { PieceImage } from "./pieceImage.js";
 export function create_play_interface() {
     let board_element = document.getElementById("board_div");
     if (!board_element) {
@@ -140,7 +141,37 @@ export function create_play_interface() {
     function create_piece_button(name, menu) {
         let button = document.createElement("button");
         menu.appendChild(button);
-        button.style.backgroundImage = `url(src/assets/${name}.png)`;
+        let image = '';
+        switch (name) {
+            case 'alpha':
+                image = PieceImage.alpha;
+                break;
+            case 'california':
+                image = PieceImage.california;
+                break;
+            case 'cburnette':
+                image = PieceImage.cburnette;
+                break;
+            case 'chess7':
+                image = PieceImage.chess7;
+                break;
+            case 'chessnut':
+                image = PieceImage.chessnut;
+                break;
+            case 'companion':
+                image = PieceImage.companion;
+                break;
+            case 'metal':
+                image = PieceImage.metal;
+                break;
+            case 'riohacha':
+                image = PieceImage.riohacha;
+                break;
+            case 'shapes':
+                image = PieceImage.shapes;
+                break;
+        }
+        button.style.backgroundImage = `url(${image})`;
         button.style.backgroundPositionX = `${3 * 64}px`;
         button.style.backgroundPositionY = `${0 * 64}px`;
         button.style.backgroundSize = `${64 * 6}px ${64 * 2}px`;

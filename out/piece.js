@@ -1,3 +1,4 @@
+import { PieceImage } from "./pieceImage.js";
 export var PieceType;
 (function (PieceType) {
     PieceType[PieceType["Pawn"] = 0] = "Pawn";
@@ -13,7 +14,7 @@ export var PieceColor;
     PieceColor[PieceColor["White"] = 0] = "White";
     PieceColor[PieceColor["Black"] = 1] = "Black";
 })(PieceColor || (PieceColor = {}));
-class Piece {
+export class Piece {
     constructor(type, color, square) {
         this.type = type;
         this.color = color;
@@ -31,7 +32,37 @@ class Piece {
         else {
             element.classList.add('black');
         }
-        element.style.backgroundImage = `url(src/assets/${Piece.image}.png)`;
+        let image = '';
+        switch (Piece.image) {
+            case 'alpha':
+                image = PieceImage.alpha;
+                break;
+            case 'california':
+                image = PieceImage.california;
+                break;
+            case 'cburnette':
+                image = PieceImage.cburnette;
+                break;
+            case 'chess7':
+                image = PieceImage.chess7;
+                break;
+            case 'chessnut':
+                image = PieceImage.chessnut;
+                break;
+            case 'companion':
+                image = PieceImage.companion;
+                break;
+            case 'metal':
+                image = PieceImage.metal;
+                break;
+            case 'riohacha':
+                image = PieceImage.riohacha;
+                break;
+            case 'shapes':
+                image = PieceImage.shapes;
+                break;
+        }
+        element.style.backgroundImage = `url(${image})`;
         let original_width = 128 * 6;
         let original_height = 128 * 2;
         let scale = 0.5;
@@ -95,5 +126,4 @@ class Piece {
     }
 }
 Piece.image = 'alpha';
-export { Piece };
 //# sourceMappingURL=piece.js.map
