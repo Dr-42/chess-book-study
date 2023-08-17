@@ -34,7 +34,7 @@ class Settings {
         this.currentSquareHighlightColor = `${rgbToHex('rgb(100, 255, 0)')}`;
         this.possibleMoveToSquareColor = `${rgbToHex('rgb(21, 103, 80)')}`;
         this.previousMoveHighlightColor = `${rgbToHex('rgb(105, 105, 235)')}`;
-        this.fontSize = '15px';
+        this.fontSize = '20';
     }
 }
 let settings = new Settings();
@@ -70,12 +70,14 @@ function loadSettings() {
     let possibleMoveToSquareColor = document.getElementById('possibleMoveToSquareColor');
     let previousMoveHighlightColor = document.getElementById('previousMoveHighlightColor');
     let fontSize = document.getElementById('fontSize');
+    let fontSizeLabel = document.getElementById('fontSizeLabel');
     lightSquareColor.value = settings.lightSquareColor;
     darkSquareColor.value = settings.darkSquareColor;
     currentSquareHighlightColor.value = settings.currentSquareHighlightColor;
     possibleMoveToSquareColor.value = settings.possibleMoveToSquareColor;
     previousMoveHighlightColor.value = settings.previousMoveHighlightColor;
     fontSize.value = settings.fontSize;
+    fontSizeLabel.innerText = `${settings.fontSize}`;
 }
 let okButton = document.getElementById('okButton');
 if (okButton) {
@@ -175,10 +177,18 @@ if (lightSquareColor) {
         updateSettings();
         updateTheme();
     });
+    lightSquareColor.addEventListener('input', function () {
+        updateSettings();
+        updateTheme();
+    });
 }
 let darkSquareColor = document.getElementById('darkSquareColor');
 if (darkSquareColor) {
     darkSquareColor.addEventListener('change', function () {
+        updateSettings();
+        updateTheme();
+    });
+    darkSquareColor.addEventListener('input', function () {
         updateSettings();
         updateTheme();
     });
@@ -189,10 +199,18 @@ if (currentSquareHighlightColor) {
         updateSettings();
         updateTheme();
     });
+    currentSquareHighlightColor.addEventListener('input', function () {
+        updateSettings();
+        updateTheme();
+    });
 }
 let possibleMoveToSquareColor = document.getElementById('possibleMoveToSquareColor');
 if (possibleMoveToSquareColor) {
     possibleMoveToSquareColor.addEventListener('change', function () {
+        updateSettings();
+        updateTheme();
+    });
+    possibleMoveToSquareColor.addEventListener('input', function () {
         updateSettings();
         updateTheme();
     });
@@ -202,6 +220,23 @@ if (previousMoveHighlightColor) {
     previousMoveHighlightColor.addEventListener('change', function () {
         updateSettings();
         updateTheme();
+    });
+    previousMoveHighlightColor.addEventListener('input', function () {
+        updateSettings();
+        updateTheme();
+    });
+}
+let fontSize = document.getElementById('fontSize');
+if (fontSize) {
+    fontSize.addEventListener('change', function () {
+        updateSettings();
+        let fontSizeLabel = document.getElementById('fontSizeLabel');
+        fontSizeLabel.innerText = `${settings.fontSize}`;
+    });
+    fontSize.addEventListener('input', function () {
+        updateSettings();
+        let fontSizeLabel = document.getElementById('fontSizeLabel');
+        fontSizeLabel.innerText = `${settings.fontSize}`;
     });
 }
 //# sourceMappingURL=settings.js.map

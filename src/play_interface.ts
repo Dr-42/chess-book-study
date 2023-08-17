@@ -37,6 +37,22 @@ export function create_play_interface() {
         appWindow.close();
     });
 
+    function loadTheme() {
+        let settings = localStorage.getItem("settings");
+        if (settings !== null) {
+            let settingsObj = JSON.parse(settings);
+            let styleSheet = document.styleSheets[0];
+            styleSheet.insertRule(`.light-square { background-color: ${settingsObj.lightSquareColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.dark-square { background-color: ${settingsObj.darkSquareColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.highlight-current { background-color: ${settingsObj.currentSquareHighlightColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.highlight-attack { border-color: ${settingsObj.possibleMoveToSquareColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.highlight-attack::before { background-color: ${settingsObj.possibleMoveToSquareColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.highlight { background-color: ${settingsObj.previousMoveHighlightColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`#move_list { font-size: ${settingsObj.fontSize}px; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`#fen_text { font-size: ${settingsObj.fontSize - 5}px; }`, styleSheet.cssRules.length);
+        }
+    }
+
     window.onload = () => {
         if (localStorage.getItem("scalefact") !== null) {
             let scalefact = parseFloat(localStorage.getItem("scalefact") as string);
@@ -56,6 +72,7 @@ export function create_play_interface() {
         if (pieceTheme !== null) {
             Piece.image = pieceTheme;
         }
+        loadTheme();
 
         let new_fen = localStorage.getItem("fen");
         if (new_fen !== null) {
@@ -185,16 +202,6 @@ export function create_play_interface() {
     let saveButton = document.getElementById("save_button");
     if (saveButton) {
         saveButton.addEventListener("click", async () => {
-            //localStorage.setItem("fen", board.getFEN());
-            //localStorage.setItem("stateIdx", board.stateIdx.toString());
-            //localStorage.setItem("states", JSON.stringify(board.states));
-            //localStorage.setItem("moves", JSON.stringify(board.moves));
-            //localStorage.setItem("sanMoves", JSON.stringify(board.sanMoves));
-            //localStorage.setItem("onTop", onTopCheckbox.checked.toString());
-            //localStorage.setItem("fullMoveNumber", board.fullmoveNumber.toString());
-            //localStorage.setItem("halfMoveClock", board.halfmoveClock.toString());
-            // All this is to be added to the file
-            // Save in binary format
             let contents = "fen:" + board.getFEN() + "\n";
             contents += "stateIdx:" + board.stateIdx.toString() + "\n";
             contents += "states:" + JSON.stringify(board.states) + "\n";

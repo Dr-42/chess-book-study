@@ -57,6 +57,19 @@ export function create_edit_interface() {
         localStorage.removeItem("scalefact");
         appWindow.close();
     });
+    function loadTheme() {
+        let settings = localStorage.getItem("settings");
+        if (settings !== null) {
+            let settingsObj = JSON.parse(settings);
+            let styleSheet = document.styleSheets[0];
+            styleSheet.insertRule(`.light-square { background-color: ${settingsObj.lightSquareColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.dark-square { background-color: ${settingsObj.darkSquareColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.highlight-current { background-color: ${settingsObj.currentSquareHighlightColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.highlight-attack { border-color: ${settingsObj.possibleMoveToSquareColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.highlight-attack::before { background-color: ${settingsObj.possibleMoveToSquareColor}; }`, styleSheet.cssRules.length);
+            styleSheet.insertRule(`.highlight { background-color: ${settingsObj.previousMoveHighlightColor}; }`, styleSheet.cssRules.length);
+        }
+    }
     window.onload = () => {
         if (localStorage.getItem("scalefact") !== null) {
             let scalefact = parseFloat(localStorage.getItem("scalefact"));
@@ -73,6 +86,7 @@ export function create_edit_interface() {
         if (pieceTheme !== null) {
             Piece.image = pieceTheme;
         }
+        loadTheme();
         board.fromFEN(window.fen);
         board.states.push(window.fen);
         board.stateIdx = 0;
