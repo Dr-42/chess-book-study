@@ -20,7 +20,7 @@ export class Piece {
     color: PieceColor;
     square: Square;
     element: HTMLElement;
-    static image: string = 'src/assets/alpha.png';
+    static image: string = 'alpha';
 
     constructor(type: PieceType, color: PieceColor, square: Square) {
         this.type = type;

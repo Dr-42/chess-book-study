@@ -94,6 +94,6 @@ class Piece {
         return fen;
     }
 }
-Piece.image = 'src/assets/alpha.png';
+Piece.image = 'alpha';
 export { Piece };
 //# sourceMappingURL=piece.js.map
