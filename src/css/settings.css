@@ -30,7 +30,6 @@ h1 {
 
 #preview {
     color: #eee;
-    padding: 2%;
     flex: auto;
     justify-content: center;
 }
@@ -38,7 +37,7 @@ h1 {
 #buttons {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     margin-top: 20px;
 }
 

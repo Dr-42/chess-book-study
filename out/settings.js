@@ -31,7 +31,15 @@ if (boardDiv) {
     boardDiv.style.flex = '0 0 auto';
     boardDiv.style.justifyContent = 'center';
     previewBoard.style.width = '200%';
-    previewBoard.style.scale = '0.5';
-    previewBoard.style.transformOrigin = '30% 0';
+    previewBoard.style.scale = '0.65';
+    previewBoard.style.transformOrigin = '28% 0';
+    brd.getSquare('a7').element.classList.add('highlight');
+    brd.getSquare('a6').element.classList.add('highlight');
+    brd.getSquare('c1').element.classList.add('highlight-current');
+    brd.getSquare('d2').element.classList.add('highlight-attack');
+    brd.getSquare('e3').element.classList.add('highlight-attack');
+    brd.getSquare('f4').element.classList.add('highlight-attack');
+    brd.getSquare('g5').element.classList.add('highlight-attack');
+    brd.getSquare('h6').element.classList.add('highlight-attack');
 }
 //# sourceMappingURL=settings.js.map
