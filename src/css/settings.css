@@ -1,0 +1,155 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #484848;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #eee;
+}
+
+#things {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 2%;
+}
+
+#app {
+    flex: auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #282828;
+}
+
+#preview {
+    color: #eee;
+    padding: 2%;
+    flex: auto;
+    justify-content: center;
+}
+
+#buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button {
+    width: 100px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 10%;
+    background-color: #080808;
+    color: #eee;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.setting {
+    flex: auto;
+    flex-direction: row;
+    margin-bottom: 15px;
+    background-color: #282828;
+    color: #fff;
+}
+
+.square {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.piece {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 64px;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    transition: left 0.5s ease, top 0.5s ease;
+}
+
+.flipped_piece {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 64px;
+    transform: translate(-50%, -50%) rotate(180deg);
+    cursor: grab;
+    transition: left 0.5s ease, top 0.5s ease;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.light-square {
+    background-color: rgb(205, 195, 205);
+}
+
+.dark-square {
+    background-color: rgb(105, 95, 105);
+}
+
+.highlight {
+    background-color: rgba(105, 105, 235, 0.9);
+}
+
+.highlight-current {
+    background-color: rgba(100, 255, 0, 0.5);
+}
+
+.highlight-attack {
+    position: relative;
+    border-radius: 16px;
+    border-color: rgb(21, 103, 80, 0.9);
+}
+
+.highlight-attack::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: rgb(21, 103, 80, 0.9);
+    /* Adjust color and opacity as needed */
+}
+
+.highlight-check {
+    position: relative;
+}
+
+.highlight-check::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    /*background-color: rgb(235, 10, 10, 0.9);*/
+    /* add fade at the rims */
+    background-image: radial-gradient(rgba(235, 10, 10, 0.9), rgba(235, 10, 10, 0.9) 10%, rgba(235, 10, 10, 0.0) 70%);
+}
+
+.flipped {
+    transform: rotate(180deg);
+}

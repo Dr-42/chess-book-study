@@ -162,6 +162,12 @@ export function create_play_interface() {
             document.body.appendChild(pieceThemeMenu);
         });
     }
+    let boardThemeButton = document.getElementById("board_theme_button");
+    if (boardThemeButton) {
+        boardThemeButton.addEventListener("click", () => {
+            document.location.href = "/settings.html";
+        });
+    }
     let saveButton = document.getElementById("save_button");
     if (saveButton) {
         saveButton.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {

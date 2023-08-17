@@ -165,6 +165,13 @@ export function create_play_interface() {
         });
     }
 
+    let boardThemeButton = document.getElementById("board_theme_button");
+    if (boardThemeButton) {
+        boardThemeButton.addEventListener("click", () => {
+            document.location.href = "/settings.html";
+        });
+    }
+
     let saveButton = document.getElementById("save_button");
     if (saveButton) {
         saveButton.addEventListener("click", async () => {

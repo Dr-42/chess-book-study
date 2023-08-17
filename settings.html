@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="src/css/settings.css">
+    <title>Chess Settings</title>
+</head>
+
+<body>
+    <div id="app">
+        <div id="things">
+            <div id="settings">
+                <h1>Theme Settings</h1>
+                <div class="setting">
+                    <input id="lightSquareColor" type="color" value="#cdc3cd">
+                    <label for="lightSquareColor">Light square color</label>
+                </div>
+                <div class="setting">
+                    <input id="darkSquareColor" type="color" value="#695f69">
+                    <label for="darkSquareColor">Dark square color</label>
+                </div>
+                <div class="setting">
+                    <input id="currentSquareHighlightColor" type="color" value="#64ff00">
+                    <label for="currentSquareHighlightColor">Current square highlight color</label>
+                </div>
+                <div class="setting">
+                    <input id="possibleMoveToSquareColor" type="color" value="#156750">
+                    <label for="possibleMoveToSquareColor">Possible move to square color</label>
+                </div>
+                <div class="setting">
+                    <input id="previousMoveHighlightColor" type="color" value="#6969eb">
+                    <label for="previousMoveHighlightColor">Previous move highlight color</label>
+                </div>
+                <div class="setting">
+                    <label for="fontSize">Font size (px):</label>
+                    <input id="fontSize" type="range" min="10" max="40" value="15"
+                        oninput="this.nextElementSibling.value = this.value">
+                    <output>15</output>
+                </div>
+            </div>
+            <div id="preview">
+                <h1>Preview</h1>
+                <div id="board_div">
+                    <!-- Chessboard and chess pieces will be generated in TypeScript and appended here -->
+                </div>
+            </div>
+        </div>
+        <div id="buttons">
+            <button id="okButton" class="button">OK</button>
+            <button id="cancelButton" class="button">Cancel</button>
+        </div>
+    </div>
+    <script type="module" src="out/settings.js"></script>
+</body>
+
+</html>
