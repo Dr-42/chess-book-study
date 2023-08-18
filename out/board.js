@@ -359,6 +359,8 @@ export class Board {
             if (this.currentPlayer === PieceColor.White) {
                 this.fullmoveNumber--;
             }
+            let sound = new Audio(Snd.move);
+            sound.play();
         }
     }
     backward() {
@@ -375,6 +377,8 @@ export class Board {
                 this.fullmoveNumber++;
             }
         }
+        let sound = new Audio(Snd.move);
+        sound.play();
     }
     isSane() {
         return __awaiter(this, void 0, void 0, function* () {

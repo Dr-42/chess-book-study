@@ -366,6 +366,8 @@ export class Board {
             if (this.currentPlayer === PieceColor.White) {
                 this.fullmoveNumber--;
             }
+            let sound = new Audio(Snd.move);
+            sound.play();
         }
     }
     backward() {
@@ -382,6 +384,8 @@ export class Board {
                 this.fullmoveNumber++;
             }
         }
+        let sound = new Audio(Snd.move);
+        sound.play();
     }
 
     async isSane(): Promise<string> {
