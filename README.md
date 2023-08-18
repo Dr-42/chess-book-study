@@ -9,6 +9,7 @@ When you are reading a chess book on your computer, sometimes don't you feel a f
 ## Features
 
 * Only valid moves can be played
+* Always on top option
 * Board editing
 * FEN and PGN display for easy export
 * 9 different piece sets
@@ -22,4 +23,10 @@ I have not able to generate the AppImage with tauri so you have to build from so
 
 ## Screenshots
 
+![Screenshot 2023-08-18 145401](https://github.com/Dr-42/chess-book-study/assets/64161204/3d0557f9-c89c-4c9e-9e32-497f32cbb1e3)
 
+![Screenshot 2023-08-18 145623](https://github.com/Dr-42/chess-book-study/assets/64161204/66c69cfa-20e8-463d-9c85-48f7b9a24b91)
+
+![Screenshot 2023-08-18 145724](https://github.com/Dr-42/chess-book-study/assets/64161204/ed09fcf3-bf71-4e38-9a62-a7f914c9207b)
+
+![Screenshot 2023-08-18 145804](https://github.com/Dr-42/chess-book-study/assets/64161204/38760154-aaaa-400b-a3e8-9f65e126e33b)
