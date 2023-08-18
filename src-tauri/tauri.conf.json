@@ -89,7 +89,7 @@
           "type": "downloadBootstrapper"
         },
         "wix": {
-          "license": "LICENCE"
+          "license": "../LICENSE"
         }
       }
     },
