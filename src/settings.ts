@@ -1,6 +1,7 @@
 import { Board } from "./board.js";
 import { appWindow } from "../node_modules/@tauri-apps/api/window";
-import { save } from "../node_modules/@tauri-apps/api/dialog.js";
+import { save, open } from "../node_modules/@tauri-apps/api/dialog.js";
+import { dialog, fs } from "../node_modules/@tauri-apps/api/index.js";
 
 window.onresize = async () => {
     let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
@@ -50,7 +51,6 @@ function updateSettings() {
         previousMoveHighlightColor: previousMoveHighlightColor,
         fontSize: fontSize
     }
-    console.log(settings);
 }
 
 function saveSettings() {
@@ -77,6 +77,44 @@ function loadSettings() {
     previousMoveHighlightColor.value = settings.previousMoveHighlightColor;
     fontSize.value = settings.fontSize;
     fontSizeLabel.innerText = `${settings.fontSize}`
+}
+
+let saveButton = document.getElementById('saveThemeButton');
+if (saveButton) {
+    saveButton.addEventListener('click', async () => {
+        let fpath = await save({
+            defaultPath: 'theme.cbt',
+            filters: [
+                { name: 'Chessboard Theme', extensions: ['cbt'] }
+            ]
+        });
+        if (fpath !== null) {
+            await fs.writeFile(fpath, JSON.stringify(settings));
+        }
+    });
+}
+
+let loadButton = document.getElementById('loadThemeButton');
+if (loadButton) {
+    loadButton.addEventListener('click', async () => {
+        let fpath = await open({
+            filters: [
+                { name: 'Chessboard Theme', extensions: ['cbt'] }
+            ]
+        });
+        if (Array.isArray(fpath)) {
+            alert('Please select only one file');
+        } else if (fpath === null) {
+            return;
+        } else {
+            let contents = await fs.readTextFile(fpath);
+            settings = JSON.parse(contents);
+            console.log(settings);
+            saveSettings();
+            loadSettings();
+            updateTheme();
+        }
+    });
 }
 
 let okButton = document.getElementById('okButton');
@@ -155,23 +193,11 @@ function rgbToHex(rgb: string) {
         bs = '0' + bs;
     }
     let res = '#' + rs + gs + bs;
-    console.log(res);
     return res;
 }
 
-let ruleSetOnce: boolean = false;
-
 function updateTheme() {
     let styleSheet = document.styleSheets[0];
-    if (ruleSetOnce) {
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-    }
-    ruleSetOnce = true;
     styleSheet.insertRule(`.light-square { background-color: ${settings.lightSquareColor}; }`, styleSheet.cssRules.length);
     styleSheet.insertRule(`.dark-square { background-color: ${settings.darkSquareColor}; }`, styleSheet.cssRules.length);
     styleSheet.insertRule(`.highlight-current { background-color: ${settings.currentSquareHighlightColor}; }`, styleSheet.cssRules.length);

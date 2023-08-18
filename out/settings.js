@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { Board } from "./board.js";
 import { appWindow } from "../node_modules/@tauri-apps/api/window";
+import { save, open } from "../node_modules/@tauri-apps/api/dialog.js";
+import { fs } from "../node_modules/@tauri-apps/api/index.js";
 window.onresize = () => __awaiter(void 0, void 0, void 0, function* () {
     let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
     document.body.style.scale = scalefact.toString();
@@ -53,7 +55,6 @@ function updateSettings() {
         previousMoveHighlightColor: previousMoveHighlightColor,
         fontSize: fontSize
     };
-    console.log(settings);
 }
 function saveSettings() {
     localStorage.setItem('settings', JSON.stringify(settings));
@@ -78,6 +79,44 @@ function loadSettings() {
     previousMoveHighlightColor.value = settings.previousMoveHighlightColor;
     fontSize.value = settings.fontSize;
     fontSizeLabel.innerText = `${settings.fontSize}`;
+}
+let saveButton = document.getElementById('saveThemeButton');
+if (saveButton) {
+    saveButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
+        let fpath = yield save({
+            defaultPath: 'theme.cbt',
+            filters: [
+                { name: 'Chessboard Theme', extensions: ['cbt'] }
+            ]
+        });
+        if (fpath !== null) {
+            yield fs.writeFile(fpath, JSON.stringify(settings));
+        }
+    }));
+}
+let loadButton = document.getElementById('loadThemeButton');
+if (loadButton) {
+    loadButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
+        let fpath = yield open({
+            filters: [
+                { name: 'Chessboard Theme', extensions: ['cbt'] }
+            ]
+        });
+        if (Array.isArray(fpath)) {
+            alert('Please select only one file');
+        }
+        else if (fpath === null) {
+            return;
+        }
+        else {
+            let contents = yield fs.readTextFile(fpath);
+            settings = JSON.parse(contents);
+            console.log(settings);
+            saveSettings();
+            loadSettings();
+            updateTheme();
+        }
+    }));
 }
 let okButton = document.getElementById('okButton');
 if (okButton) {
@@ -149,21 +188,10 @@ function rgbToHex(rgb) {
         bs = '0' + bs;
     }
     let res = '#' + rs + gs + bs;
-    console.log(res);
     return res;
 }
-let ruleSetOnce = false;
 function updateTheme() {
     let styleSheet = document.styleSheets[0];
-    if (ruleSetOnce) {
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1);
-    }
-    ruleSetOnce = true;
     styleSheet.insertRule(`.light-square { background-color: ${settings.lightSquareColor}; }`, styleSheet.cssRules.length);
     styleSheet.insertRule(`.dark-square { background-color: ${settings.darkSquareColor}; }`, styleSheet.cssRules.length);
     styleSheet.insertRule(`.highlight-current { background-color: ${settings.currentSquareHighlightColor}; }`, styleSheet.cssRules.length);

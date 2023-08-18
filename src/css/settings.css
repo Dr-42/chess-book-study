@@ -56,6 +56,38 @@ h1 {
     transition: background-color 0.5s ease;
 }
 
+#previewHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+
+#previewTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#previewButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+}
+
+.topbutton {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 20%;
+    background-color: rgb(48, 48, 48);
+    color: white;
+    font-size: 20px;
+    transition: background-color 0.5s ease;
+}
+
 .setting {
     flex: auto;
     flex-direction: row;

@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="src/css/settings.css">
     <title>Chess Settings</title>
+    <meta charset="utf-8">
 </head>
 
 <body>
@@ -38,7 +39,16 @@
                 </div>
             </div>
             <div id="preview">
-                <h1>Preview</h1>
+                <div id="previewHeader">
+                    <div id="previewTitle">
+                        <div> </div>
+                        <h1>Preview</h1>
+                    </div>
+                    <div id="previewButtons">
+                        <button id="saveThemeButton" class="topbutton">💾</button>
+                        <button id="loadThemeButton" class="topbutton">🗁</button>
+                    </div>
+                </div>
                 <div id="board_div">
                     <!-- Chessboard and chess pieces will be generated in TypeScript and appended here -->
                 </div>

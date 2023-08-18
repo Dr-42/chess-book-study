@@ -7,7 +7,7 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "chess-book-study",
+    "productName": "Chess Book Study",
     "version": "1.0.0"
   },
   "tauri": {
@@ -75,7 +75,23 @@
         "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ]
+      ],
+      "windows": {
+        "allowDowngrades": true,
+        "certificateThumbprint": null,
+        "digestAlgorithm": null,
+        "nsis": null,
+        "timestampUrl": null,
+        "tsp": false,
+        "webviewFixedRuntimePath": null,
+        "webviewInstallMode": {
+          "silent": true,
+          "type": "downloadBootstrapper"
+        },
+        "wix": {
+          "license": "LICENCE"
+        }
+      }
     },
     "security": {
       "csp": null
@@ -84,7 +100,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "chess-book-study",
+        "title": "Chess Book Study",
         "width": 747,
         "height": 532
       }
