@@ -1,1 +1,1 @@
-{"version":3,"file":"sound.js","sourceRoot":"","sources":["../src/sound.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,GAAG;;AACL,QAAI,GAAG,6mLAA6mL,CAAC;AACrnL,WAAO,GAAG,y0PAAy0P,CAAC"}
+{"version":3,"file":"sound.js","sourceRoot":"","sources":["../src/sound.ts"],"names":[],"mappings":"AAAA,MAAa,GAAG;;AACL,QAAI,GAAG,6mLAA6mL,CAAC;AACrnL,WAAO,GAAG,y0PAAy0P,CAAC;SAFl1P,GAAG"}

@@ -353,7 +353,7 @@ export class Board {
         }
     }
 
-    forward() {
+    backward() {
         if (this.stateIdx > 0) {
             this.stateIdx--;
             this.fromFEN(this.states[this.stateIdx]);
@@ -370,7 +370,7 @@ export class Board {
             sound.play();
         }
     }
-    backward() {
+    forward() {
         if (this.stateIdx < this.states.length - 1) {
             this.stateIdx++;
             this.fromFEN(this.states[this.stateIdx]);
@@ -383,9 +383,9 @@ export class Board {
             if (this.currentPlayer === PieceColor.Black) {
                 this.fullmoveNumber++;
             }
+            let sound = new Audio(Snd.move);
+            sound.play();
         }
-        let sound = new Audio(Snd.move);
-        sound.play();
     }
 
     async isSane(): Promise<string> {

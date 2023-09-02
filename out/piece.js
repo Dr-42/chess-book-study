@@ -14,7 +14,7 @@ export var PieceColor;
     PieceColor[PieceColor["White"] = 0] = "White";
     PieceColor[PieceColor["Black"] = 1] = "Black";
 })(PieceColor || (PieceColor = {}));
-export class Piece {
+class Piece {
     constructor(type, color, square) {
         this.type = type;
         this.color = color;
@@ -126,4 +126,5 @@ export class Piece {
     }
 }
 Piece.image = 'alpha';
+export { Piece };
 //# sourceMappingURL=piece.js.map

@@ -14,5 +14,6 @@ export default defineConfig(async () => ({
         settings: "settings.html",
       },
     },
+    chunkSizeWarningLimit: 1000
   }
 }));

@@ -299,10 +299,10 @@ export function create_play_interface() {
     }
     window.addEventListener("keydown", (event) => {
         if (event.key === "ArrowLeft") {
-            board.forward();
+            board.backward();
         }
         else if (event.key === "ArrowRight") {
-            board.backward();
+            board.forward();
         }
     });
     // Add a event listener to the board to move pieces
