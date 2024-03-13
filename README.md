@@ -2,24 +2,30 @@
 
 A simple companion app for when you are reading pdfs.
 
-________________________________________________________________
+---
 
 When you are reading a chess book on your computer, sometimes don't you feel a floatiing chessboard would solve most of your visualisaztion problems? Well this does exactly that.
 
 ## Features
 
-* Only valid moves can be played
-* Always on top option
-* Board editing
-* FEN and PGN display for easy export
-* 9 different piece sets
-* Fully customisable board theme
-* Sounds!!
+- Only valid moves can be played
+- Always on top option
+- Board editing
+- FEN and PGN display for easy export
+- 9 different piece sets
+- Fully customisable board theme
+- Sounds!!
 
 ## Usage
 
+### Use prebuilt binaries
+
 On windows, just grab the msi installer.
 I have not able to generate the AppImage with tauri so you have to build from source. Follow the tauri docs to get how to do it. The assets are embedding in the sourcecode, So don't worry about it.
+
+### Compiling from source
+
+This is a standard tauri app written in typescript with no frameworks, hence this should be fairly easy to compile and run if you are familiar with the tauri ecosystem. If not follow [Tauri quickstart](https://tauri.app/v1/guides/getting-started/prerequisites)
 
 ## Screenshots
 
