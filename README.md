@@ -27,6 +27,13 @@ I have not able to generate the AppImage with tauri so you have to build from so
 
 This is a standard tauri app written in typescript with no frameworks, hence this should be fairly easy to compile and run if you are familiar with the tauri ecosystem. If not follow [Tauri quickstart](https://tauri.app/v1/guides/getting-started/prerequisites)
 
+After the prerequisites are installed, clone the repo and run the following commands:
+
+```sh
+npm install --save-dev @tauri-apps/cli
+npm run tauri dev
+```
+
 ## Screenshots
 
 ![Screenshot 2023-08-18 145401](https://github.com/Dr-42/chess-book-study/assets/64161204/3d0557f9-c89c-4c9e-9e32-497f32cbb1e3)
