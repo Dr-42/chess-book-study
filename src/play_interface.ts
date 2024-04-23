@@ -385,9 +385,9 @@ export function create_play_interface() {
                     } else if (state === "stalemate") {
                         alert("Stalemate!");
                     } else if (state === "check") {
-                        let king_sqaure = await (board.getKingSquare());
-                        if (king_sqaure !== null) {
-                            let king_square_element = document.getElementById(king_sqaure);
+                        let king_square = await (board.getKingSquare());
+                        if (king_square !== null) {
+                            let king_square_element = document.getElementById(king_square);
                             if (king_square_element !== null) {
                                 king_square_element.classList.add("highlight-check");
                             }
