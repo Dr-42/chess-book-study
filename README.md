@@ -21,7 +21,7 @@ When you are reading a chess book on your computer, sometimes don't you feel a f
 ### Use prebuilt binaries
 
 On windows, just grab the msi installer.
-I have not able to generate the AppImage with tauri so you have to build from source. Follow the tauri docs to get how to do it. The assets are embedding in the sourcecode, So don't worry about it.
+I have not able to generate the AppImage with tauri, so I am distributing a namked binary. The assets are embedding in the sourcecode, So don't worry about it.
 
 ### Compiling from source
 
