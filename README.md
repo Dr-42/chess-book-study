@@ -27,10 +27,25 @@ I have not able to generate the AppImage with tauri, so I am distributing a namk
 
 This is a standard tauri app written in typescript with no frameworks, hence this should be fairly easy to compile and run if you are familiar with the tauri ecosystem. If not follow [Tauri quickstart](https://tauri.app/v1/guides/getting-started/prerequisites)
 
+Install the typescript compiler either from npm or your package manager.
+
+#### Using npm
+
+```sh
+npm install -g typescript
+```
+
+#### Using pacman
+
+```sh
+pacman -S typescript
+```
+
 After the prerequisites are installed, clone the repo and run the following commands:
 
 ```sh
 npm install --save-dev @tauri-apps/cli
+tsc
 npm run tauri dev
 ```
 
