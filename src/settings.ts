@@ -1,7 +1,7 @@
-import { Board } from "./board.js";
-import { appWindow } from "../node_modules/@tauri-apps/api/window";
-import { save, open } from "../node_modules/@tauri-apps/api/dialog.js";
-import { fs } from "../node_modules/@tauri-apps/api/index.js";
+import { Board } from "./board";
+import { appWindow } from "@tauri-apps/api/window";
+import { save, open } from "@tauri-apps/api/dialog";
+import { fs } from "@tauri-apps/api";
 
 window.onresize = async () => {
     let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);

@@ -1,9 +1,9 @@
-import { Board } from "./board.js";
-import { Piece, PieceColor } from "./piece.js";
-import { appWindow } from "../node_modules/@tauri-apps/api/window";
-import { save, open } from "../node_modules/@tauri-apps/api/dialog";
-import { fs } from "../node_modules/@tauri-apps/api/index.js";
-import { PieceImage } from "./pieceImage.js";
+import { Board } from "./board";
+import { Piece, PieceColor } from "./piece";
+import { PieceImage } from "./pieceImage";
+import { appWindow } from "@tauri-apps/api/window";
+import { save, open } from "@tauri-apps/api/dialog";
+import { fs } from "@tauri-apps/api";
 
 export function create_play_interface() {
     let board_element = document.getElementById("board_div");

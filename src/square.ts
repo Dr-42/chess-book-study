@@ -1,6 +1,5 @@
-// Import piece.ts
-import { Piece } from './piece.js';
-import { Board } from './board.js';
+import { Piece } from './piece';
+import { Board } from './board';
 
 export class Square {
     x: number;

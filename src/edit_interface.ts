@@ -1,6 +1,6 @@
-import { Board } from "./board.js";
-import { PieceColor, PieceType, Piece } from "./piece.js";
-import { appWindow } from "../node_modules/@tauri-apps/api/window";
+import { Board } from "./board";
+import { PieceColor, PieceType, Piece } from "./piece";
+import { appWindow } from "@tauri-apps/api/window";
 
 export function create_edit_interface() {
     let board_element = document.getElementById("board_div");

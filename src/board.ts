@@ -1,7 +1,7 @@
-import { Piece, PieceColor, PieceType } from "./piece.js";
-import { Square } from "./square.js";
-import { invoke } from "../node_modules/@tauri-apps/api/index.js";
-import { Snd } from "./sound.js";
+import { Piece, PieceColor, PieceType } from "./piece";
+import { Square } from "./square";
+import { invoke } from "@tauri-apps/api";
+import { Snd } from "./sound";
 
 export class Board {
     squares: Square[][];

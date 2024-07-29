@@ -1,5 +1,5 @@
-import { Square } from "./square.js";
-import { PieceImage } from "./pieceImage.js";
+import { Square } from "./square";
+import { PieceImage } from "./pieceImage";
 
 export enum PieceType {
     Pawn,
