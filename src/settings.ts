@@ -1,7 +1,7 @@
 import { Board } from "./board.js";
 import { appWindow } from "../node_modules/@tauri-apps/api/window";
 import { save, open } from "../node_modules/@tauri-apps/api/dialog.js";
-import { dialog, fs } from "../node_modules/@tauri-apps/api/index.js";
+import { fs } from "../node_modules/@tauri-apps/api/index.js";
 
 window.onresize = async () => {
     let scalefact = Math.min(window.innerWidth / 748, window.innerHeight / 533);
@@ -165,14 +165,6 @@ if (boardDiv) {
     brd.getSquare('f4').element.classList.add('highlight-attack');
     brd.getSquare('g5').element.classList.add('highlight-attack');
     brd.getSquare('h6').element.classList.add('highlight-attack');
-}
-
-function hexToRgba(hex: string) {
-    let r = parseInt(hex.substring(1, 3), 16);
-    let g = parseInt(hex.substring(3, 5), 16);
-    let b = parseInt(hex.substring(5, 7), 16);
-    let a = parseInt(hex.substring(7, 9), 16) / 255;
-    return `rgba(${r}, ${g}, ${b}, ${a})`;
 }
 
 function rgbToHex(rgb: string) {

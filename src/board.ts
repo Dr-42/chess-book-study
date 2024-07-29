@@ -263,6 +263,8 @@ export class Board {
 
         // Split the FEN string into its components
         let [position, currentPlayer, castlingAvailability, enPassantTarget, halfmoveClock, fullmoveNumber] = fen.split(' ');
+        
+        console.log(`halfmoveClock: ${halfmoveClock} fullmoveNumber: ${fullmoveNumber}`);
 
         // Set the pieces on the board
         let ranks = position.split('/');

@@ -314,7 +314,7 @@ export function create_edit_interface() {
             if (pieceType === PieceType.None) {
                 square.setPiece(null);
             } else {
-                let piece = new Piece(pieceType, color, square);
+                new Piece(pieceType, color, square);
             }
         }
         board.fromFEN(board.getFEN());
